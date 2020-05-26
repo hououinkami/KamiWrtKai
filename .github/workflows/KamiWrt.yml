@@ -1,0 +1,191 @@
+name: 编译自宅用软路由
+
+on:
+  repository_dispatch:
+  # release:
+    # types: published
+  push:
+    branches:
+      - master
+    paths:
+      - '.config'
+  schedule:
+    - cron: 0 0 * * 5
+  release:
+    types: [published]
+  watch:
+    types: started
+
+env:
+  REPO_URL: https://github.com/coolsnowwolf/lede
+  REPO_BRANCH: master
+  FEEDS_CONF: feeds.conf.default
+  CONFIG_FILE: KamiWrt.config
+  DIY_P1_SH: diy-before-feed.sh
+  DIY_P2_SH: diy-after-feed.sh
+  SSH_ACTIONS: false
+  UPLOAD_PACKAGES_DIR: false
+  UPLOAD_FIRMWARE: true
+  UPLOAD_TO_ARTIFACTS: true
+  UPLOAD_TO_REALEASE: false
+  WECHAT_NOTIFICATION: true
+  TZ: Asia/Shanghai
+
+jobs:
+  build:
+    if: github.event.repository.owner.id == github.event.sender.id
+    runs-on: ubuntu-18.04
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+    
+    - name: 获取当前日期
+      id: date
+      run: |
+        date=$(date +'%y%m%d')
+        echo "::set-env name=DATE::$date"
+        echo "::set-env name=FILE_DATE::$(date +"%Y%m%d%H%M")"
+    
+    - name: 删除旧Artifacts
+      uses: c-hive/gha-remove-artifacts@v1
+      with:
+        age: '1 month'
+        skip-recent: 1
+        skip-tags: true
+    
+    - name: 清理空间
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        docker rmi `docker images -q`
+        sudo rm -rf /usr/share/dotnet /etc/mysql /etc/php /etc/apt/sources.list.d
+        sudo -E apt-get -y purge azure-cli ghc* zulu* hhvm llvm* firefox google* dotnet* powershell openjdk* mysql* php*
+        sudo -E apt-get update
+        sudo -E apt-get -y install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch python3 unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs gcc-multilib g++-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler antlr3 gperf
+        sudo -E apt-get -y autoremove --purge
+        sudo -E apt-get clean
+        df -h
+
+    - name: 编译环境初始化
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        sudo swapoff /swapfile
+        sudo rm -rf /swapfile /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
+        sudo -E apt-get -qq update
+        sudo -E apt-get -qq install $(curl -fsSL git.io/depends-ubuntu-1804)
+        sudo -E apt-get -qq autoremove --purge
+        sudo -E apt-get -qq clean
+        sudo timedatectl set-timezone "$TZ"
+
+    - name: clone源码
+      run: |
+        df -hT $PWD
+        git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
+
+    - name: 加载自定义feeds
+      run: |
+        [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
+        chmod +x $DIY_P1_SH
+        cd openwrt
+        ../$DIY_P1_SH
+
+    - name: 更新feeds
+      run: cd openwrt && ./scripts/feeds update -a
+
+    - name: 安装feeds
+      run: cd openwrt && ./scripts/feeds install -a
+
+    - name: 加载自定义config
+      run: |
+        [ -e files ] && mv files openwrt/files
+        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
+        chmod +x $DIY_P2_SH
+        cd openwrt
+        ../$DIY_P2_SH
+
+    - name: 通过SSH连接到Actions
+      uses: P3TERX/debugger-action@master
+      if: env.SSH_ACTIONS == 'true' || contains(github.event.action, 'ssh')
+
+    - name: 下载package
+      id: package
+      run: |
+        cd openwrt
+        make defconfig
+        make download -j8
+        find dl -size -1024c -exec ls -l {} \;
+        find dl -size -1024c -exec rm -f {} \;
+
+    - name: 编译固件
+      id: compile
+      run: |
+        cd openwrt
+        echo -e "$(nproc) thread compile"
+        make -j$(nproc) || make -j1 V=s
+        echo "::set-output name=status::success"
+        grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
+        [ -s DEVICE_NAME ] && echo "::set-env name=DEVICE_NAME::$(cat DEVICE_NAME)"
+
+    - name: 检查空间使用情况
+      if: (!cancelled())
+      run: df -hT
+
+    - name: 整理固件文件夹
+      id: organize
+      if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
+      run: |
+        mkdir openwrt/firmware
+        find openwrt/bin/targets/*/*/* -maxdepth 0  -name "*combined*"  | xargs -i mv -f {} ./openwrt/firmware/
+        find openwrt/bin/targets/*/*/* -maxdepth 0  -name "*uefi*"  | xargs -i mv -f {} ./openwrt/firmware/
+        find openwrt/bin/targets/*/*/* -maxdepth 0  -name "config*"  | xargs -i mv -f {} ./openwrt/firmware/
+        cd openwrt/firmware
+        echo "::set-env name=FIRMWARE::$PWD"
+        echo "::set-output name=status::success"
+
+    - name: 打包packages文件夹
+      run: |
+        cd openwrt/bin/packages/
+        tar -cvf  KamiWrt_packages.tar ./
+        mv *.tar ..
+
+    - name: 上传固件到artifact
+      if: env.UPLOAD_TO_ARTIFACTS == 'true' && !cancelled()
+      uses: actions/upload-artifact@master
+      with:
+        name: KamiWrt_firmware_${{ env.FILE_DATE }}
+        path: ${{ env.FIRMWARE }}/*combined*
+
+    - name: 上传packages到artifact
+      if: env.UPLOAD_PACKAGES_DIR == 'true' && env.UPLOAD_TO_ARTIFACTS == 'true' && !cancelled()
+      uses: actions/upload-artifact@master
+      with:
+        name: KamiWrt_packages_${{ env.FILE_DATE }}
+        path: openwrt/bin/packages
+
+    - name: 上传固件到release
+      if: env.UPLOAD_TO_REALEASE == 'true' && !cancelled()
+      uses: svenstaro/upload-release-action@v1-release
+      with:
+        repo_token: ${{ secrets.SUPER_TOKEN }}
+        file: ${{env.FIRMWARE}}/*
+        asset_name: KamiWrt_firmware
+        tag: ${{env.DATE}}
+        overwrite: true
+        file_glob: true
+    
+    - name: 上传packages到release
+      if: env.UPLOAD_PACKAGES_DIR == 'true' && env.UPLOAD_TO_REALEASE == 'true' && !cancelled()
+      uses: svenstaro/upload-release-action@v1-release
+      with:
+        repo_token: ${{ secrets.SUPER_TOKEN }}
+        file: openwrt/bin/KamiWrt_packages.tar
+        asset_name: KamiWrt_packages
+        tag: ${{env.DATE}}
+        overwrite: true
+        file_glob: true
+    
+    - name: WeChat推送
+      if: env.WECHAT_NOTIFICATION == 'true' && !cancelled()
+      run: curl https://sc.ftqq.com/${{secrets.ServerChan}}.send?text=KamiWrt编译完成!
