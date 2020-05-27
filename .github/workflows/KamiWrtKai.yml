@@ -20,7 +20,7 @@ env:
   REPO_URL: https://github.com/coolsnowwolf/lede
   REPO_BRANCH: master
   FEEDS_CONF: feeds.conf.default
-  CONFIG_FILE: KamiWrt.config
+  CONFIG_FILE: KamiWrtKai.config
   DIY_P1_SH: diy-before-feed.sh
   DIY_P2_SH: diy-after-feed.sh
   SSH_ACTIONS: true
