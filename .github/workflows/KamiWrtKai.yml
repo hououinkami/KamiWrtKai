@@ -23,7 +23,7 @@ env:
   CONFIG_FILE: KamiWrt.config
   DIY_P1_SH: diy-before-feed.sh
   DIY_P2_SH: diy-after-feed.sh
-  SSH_ACTIONS: false
+  SSH_ACTIONS: true
   UPLOAD_PACKAGES_DIR: false
   UPLOAD_FIRMWARE: true
   UPLOAD_TO_ARTIFACTS: true
