@@ -138,7 +138,7 @@ jobs:
       run: |
         mkdir openwrt/firmware
         find openwrt/bin/targets/*/*/* -maxdepth 0  -name "*combined*"  | xargs -i mv -f {} ./openwrt/firmware/
-        find openwrt/bin/targets/*/*/* -maxdepth 0  -name "*uefi*"  | xargs -i mv -f {} ./openwrt/firmware/
+        # find openwrt/bin/targets/*/*/* -maxdepth 0  -name "*uefi*"  | xargs -i mv -f {} ./openwrt/firmware/
         find openwrt/bin/targets/*/*/* -maxdepth 0  -name "config*"  | xargs -i mv -f {} ./openwrt/firmware/
         cd openwrt/firmware
         echo "::set-env name=FIRMWARE::$PWD"
@@ -155,7 +155,7 @@ jobs:
       uses: actions/upload-artifact@master
       with:
         name: KamiWrt_firmware_${{ env.FILE_DATE }}
-        path: ${{ env.FIRMWARE }}/*combined*
+        path: ${{ env.FIRMWARE }}
 
     - name: 上传packages到artifact
       if: env.UPLOAD_PACKAGES_DIR == 'true' && env.UPLOAD_TO_ARTIFACTS == 'true' && !cancelled()
