@@ -9,10 +9,13 @@ on:
       - master
     paths:
       - '.config'
+<<<<<<< HEAD
   schedule:
     - cron: 0 0 * * 5
   #release:
     # types: [published]
+=======
+>>>>>>> 7f69613905ca102f458e9053d3c83dddfe83bbe2
   watch:
     types: started
 
