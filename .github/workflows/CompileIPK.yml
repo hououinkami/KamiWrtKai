@@ -1,0 +1,207 @@
+name: 编译IPK
+
+on:
+  repository_dispatch:
+  workflow_dispatch:
+    inputs:
+      ssh:
+        description: 'SSH connection to Actions'
+        required: false
+        default: 'false'
+  push:
+    branches:
+      - master
+    paths:
+      - '.config'
+  schedule:
+    - cron: 0 0 * * 5
+  # release:
+    # types: [published]
+  watch:
+    types: started
+
+env:
+  REPO_URL: https://github.com/coolsnowwolf/lede
+  REPO_BRANCH: master
+  FEEDS_CONF: feeds.conf.default
+  CONFIG_FILE: ipk.config
+  DIY_P1_SH: diy-ipk.sh
+  DIY_P2_SH: diy-after-feed.sh
+  UPLOAD_PACKAGES_DIR: true
+  UPLOAD_FIRMWARE: true
+  UPLOAD_TO_ARTIFACTS: false
+  UPLOAD_TO_REALEASE: true
+  TELEGRAM_NOTIFICATION: true
+  WECHAT_NOTIFICATION: false
+  DELETE_OLD_REALEASE: true
+  TZ: Asia/Shanghai
+
+jobs:
+  build:
+    if: github.event.repository.owner.id == github.event.sender.id
+    runs-on: ubuntu-18.04
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+    
+    - name: 获取当前日期
+      id: date
+      run: |
+        date=$(date +'%y%m%d')
+        echo "DATE=$date" >> $GITHUB_ENV
+        echo "FILE_DATE=$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
+
+    - name: 编译环境初始化
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        sudo rm -rf /swapfile /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
+        sudo -E apt-get -qq update
+        sudo -E apt-get -qq install $(curl -fsSL git.io/depends-ubuntu-1804)
+        sudo -E apt-get -qq autoremove --purge
+        sudo -E apt-get -qq clean
+        sudo timedatectl set-timezone "$TZ"
+
+    - name: clone源码
+      run: |
+        df -hT $PWD
+        git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
+
+    - name: 加载自定义feeds
+      run: |
+        [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
+        chmod +x $DIY_P1_SH
+        cd openwrt
+        ../$DIY_P1_SH
+
+    - name: 更新feeds
+      run: cd openwrt && ./scripts/feeds update -a
+
+    - name: 安装feeds
+      run: cd openwrt && ./scripts/feeds install -a
+
+    - name: 加载自定义config
+      run: |
+        [ -e files ] && mv files openwrt/files
+        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
+        chmod +x $DIY_P2_SH
+        cd openwrt
+        ../$DIY_P2_SH
+
+    - name: 通过SSH连接到Actions
+      uses: P3TERX/ssh2actions@v1.0.0
+      if: (github.event.inputs.ssh == 'true' && github.event.inputs.ssh  != 'false') || contains(github.event.action, 'ssh')
+      env:
+        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+
+    - name: 下载package
+      id: package
+      run: |
+        cd openwrt
+        make defconfig
+        make download -j8
+        find dl -size -1024c -exec ls -l {} \;
+        find dl -size -1024c -exec rm -f {} \;
+
+    - name: 编译固件
+      id: compile
+      run: |
+        cd openwrt
+        echo -e "$(nproc) thread compile"
+        make -j$(nproc) || make -j1 || make -j1 V=s
+        echo "::set-output name=status::success"
+
+    - name: 检查空间使用情况
+      if: (!cancelled())
+      run: df -hT
+
+    - name: 整理固件文件夹
+      id: organize
+      if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
+      run: |
+        mkdir openwrt/firmware
+        find openwrt/bin/targets/*/*/* -maxdepth 0  -name "*combined*"  | xargs -i mv -f {} ./openwrt/firmware/
+        find openwrt/bin/targets/*/*/* -maxdepth 0  -name "*efi*"  | xargs -i mv -f {} ./openwrt/firmware/
+        find openwrt/bin/targets/*/*/* -maxdepth 0  -name "config*"  | xargs -i mv -f {} ./openwrt/firmware/
+        cd openwrt/firmware
+        echo "FIRMWARE=$PWD" >> $GITHUB_ENV
+        echo "::set-output name=status::success"
+
+    - name: 打包packages文件夹
+      run: |
+        cd openwrt/bin/packages/
+        tar -cvf  KamiWrt_packages.tar ./
+        mv *.tar ..
+
+    - name: 上传固件到artifact
+      if: env.UPLOAD_TO_ARTIFACTS == 'true' && !cancelled()
+      uses: actions/upload-artifact@master
+      with:
+        name: KamiWrt_firmware_${{ env.FILE_DATE }}
+        path: ${{ env.FIRMWARE }}/*combined*
+
+    - name: 上传packages到artifact
+      if: env.UPLOAD_PACKAGES_DIR == 'true' && env.UPLOAD_TO_ARTIFACTS == 'true' && !cancelled()
+      uses: actions/upload-artifact@master
+      with:
+        name: KamiWrt_packages_${{ env.FILE_DATE }}
+        path: openwrt/bin/packages
+
+    - name: 上传固件到release
+      if: env.UPLOAD_TO_REALEASE == 'true' && !cancelled()
+      uses: svenstaro/upload-release-action@v1-release
+      with:
+        repo_token: ${{ secrets.SUPER_TOKEN }}
+        file: ${{env.FIRMWARE}}/config.buildinfo
+        asset_name: KamiWrt_firmware
+        tag: ${{env.DATE}}
+        overwrite: true
+        file_glob: true
+    
+    - name: 上传packages到release(openwrt/bin/KamiWrt_packages.tar)
+      if: env.UPLOAD_PACKAGES_DIR == 'true' && env.UPLOAD_TO_REALEASE == 'true' && !cancelled()
+      uses: svenstaro/upload-release-action@v1-release
+      with:
+        repo_token: ${{ secrets.SUPER_TOKEN }}
+        file: openwrt/bin/packages/x86_64/base/luci-app-serverchan*.ipk
+        asset_name: luci-app-serverchan
+        tag: ${{env.DATE}}
+        overwrite: true
+        file_glob: true
+
+    - name: 删除旧Artifacts
+      uses: c-hive/gha-remove-artifacts@v1
+      with:
+        age: '1 month'
+        skip-recent: 1
+        skip-tags: true
+    
+    - name: 移除workflow运行
+      uses: GitRML/delete-workflow-runs@main
+      with:
+        retain_days: 1
+        keep_minimum_runs: 3
+
+    - name: 移除旧Releases
+      uses: dev-drprasad/delete-older-releases@v0.1.0
+      if: env.UPLOAD_TO_REALEASE == 'true' && env.DELETE_OLD_REALEASE == 'true' && !cancelled()
+      with:
+        keep_latest: 10
+        delete_tags: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.SUPER_TOKEN }}
+
+    - name: Telegram推送
+      if: env.TELEGRAM_NOTIFICATION == 'true' && !cancelled()
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_CHAT_ID }}
+        token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        args: IPK编译完成!
+
+
+    - name: WeChat推送
+      if: env.WECHAT_NOTIFICATION == 'true' && !cancelled()
+      run: curl https://sc.ftqq.com/${{secrets.ServerChan}}.send?text=IPK编译完成!
