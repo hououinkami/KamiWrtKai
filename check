@@ -1,62 +1,62 @@
-2021-02-20T06:28:37.0588816Z ##[group]Run cd openwrt
-2021-02-20T06:28:37.0589429Z [36;1mcd openwrt[0m
-2021-02-20T06:28:37.0589902Z [36;1mmake defconfig[0m
-2021-02-20T06:28:37.0590420Z [36;1mmake download -j8[0m
-2021-02-20T06:28:37.0590986Z [36;1mfind dl -size -1024c -exec ls -l {} \;[0m
-2021-02-20T06:28:37.0591555Z [36;1mfind dl -size -1024c -exec rm -f {} \;[0m
-2021-02-20T06:28:37.0649867Z shell: /bin/bash -e {0}
-2021-02-20T06:28:37.0650355Z env:
-2021-02-20T06:28:37.0651047Z   REPO_URL: https://github.com/coolsnowwolf/lede
-2021-02-20T06:28:37.0651774Z   REPO_BRANCH: master
-2021-02-20T06:28:37.0652375Z   FEEDS_CONF: feeds.conf.default
-2021-02-20T06:28:37.0653009Z   CONFIG_FILE: ipk.config
-2021-02-20T06:28:37.0653568Z   DIY_P1_SH: diy-ipk.sh
-2021-02-20T06:28:37.0654155Z   DIY_P2_SH: diy-after-feed.sh
-2021-02-20T06:28:37.0654785Z   UPLOAD_PACKAGES_DIR: true
-2021-02-20T06:28:37.0655347Z   UPLOAD_FIRMWARE: true
-2021-02-20T06:28:37.0655904Z   UPLOAD_TO_ARTIFACTS: false
-2021-02-20T06:28:37.0656478Z   UPLOAD_TO_REALEASE: true
-2021-02-20T06:28:37.0657161Z   TELEGRAM_NOTIFICATION: true
-2021-02-20T06:28:37.0657792Z   WECHAT_NOTIFICATION: false
-2021-02-20T06:28:37.0658388Z   DELETE_OLD_REALEASE: true
-2021-02-20T06:28:37.0659114Z   TZ: Asia/Shanghai
-2021-02-20T06:28:37.0659569Z   DATE: 210220
-2021-02-20T06:28:37.0660003Z   FILE_DATE: 202102201422
-2021-02-20T06:28:37.0660459Z ##[endgroup]
-2021-02-20T06:28:37.1145191Z fatal: Invalid revision range 97a4ffcc125611dd5f307d54570373832a73e62d..HEAD
-2021-02-20T06:28:37.1196920Z fatal: Invalid revision range 97a4ffcc125611dd5f307d54570373832a73e62d..73fdfdf6aa62f0b28535b036313266f2ab06e993
-2021-02-20T06:28:39.3873983Z fatal: Invalid revision range 97a4ffcc125611dd5f307d54570373832a73e62d..HEAD
-2021-02-20T06:28:39.3940027Z fatal: Invalid revision range 97a4ffcc125611dd5f307d54570373832a73e62d..73fdfdf6aa62f0b28535b036313266f2ab06e993
-2021-02-20T06:28:52.3050226Z 
-2021-02-20T06:28:57.5238707Z #
-2021-02-20T06:28:57.5240475Z # configuration written to .config
-2021-02-20T06:28:57.5241790Z #
-2021-02-20T06:28:57.5487347Z fatal: Invalid revision range 97a4ffcc125611dd5f307d54570373832a73e62d..HEAD
-2021-02-20T06:28:57.5543464Z fatal: Invalid revision range 97a4ffcc125611dd5f307d54570373832a73e62d..73fdfdf6aa62f0b28535b036313266f2ab06e993
-2021-02-20T06:28:57.6200583Z fatal: Invalid revision range 97a4ffcc125611dd5f307d54570373832a73e62d..HEAD
-2021-02-20T06:28:57.6255654Z fatal: Invalid revision range 97a4ffcc125611dd5f307d54570373832a73e62d..73fdfdf6aa62f0b28535b036313266f2ab06e993
-2021-02-20T06:29:05.4269727Z fatal: Invalid revision range 97a4ffcc125611dd5f307d54570373832a73e62d..HEAD
-2021-02-20T06:29:05.4331635Z fatal: Invalid revision range 97a4ffcc125611dd5f307d54570373832a73e62d..73fdfdf6aa62f0b28535b036313266f2ab06e993
-2021-02-20T06:29:05.4973499Z fatal: Invalid revision range 97a4ffcc125611dd5f307d54570373832a73e62d..HEAD
-2021-02-20T06:29:05.5030277Z fatal: Invalid revision range 97a4ffcc125611dd5f307d54570373832a73e62d..73fdfdf6aa62f0b28535b036313266f2ab06e993
-2021-02-20T06:29:13.9176043Z time: target/linux/prereq#0.13#0.03#0.15
+2021-02-19T00:23:08.6420850Z ##[group]Run cd openwrt
+2021-02-19T00:23:08.6421446Z [36;1mcd openwrt[0m
+2021-02-19T00:23:08.6421873Z [36;1mmake defconfig[0m
+2021-02-19T00:23:08.6422331Z [36;1mmake download -j8[0m
+2021-02-19T00:23:08.6422828Z [36;1mfind dl -size -1024c -exec ls -l {} \;[0m
+2021-02-19T00:23:08.6423343Z [36;1mfind dl -size -1024c -exec rm -f {} \;[0m
+2021-02-19T00:23:08.6468150Z shell: /bin/bash -e {0}
+2021-02-19T00:23:08.6468556Z env:
+2021-02-19T00:23:08.6469147Z   REPO_URL: https://github.com/coolsnowwolf/lede
+2021-02-19T00:23:08.6469765Z   REPO_BRANCH: master
+2021-02-19T00:23:08.6470282Z   FEEDS_CONF: feeds.conf.default
+2021-02-19T00:23:08.6470920Z   CONFIG_FILE: KamiWrt.config
+2021-02-19T00:23:08.6471499Z   DIY_P1_SH: diy-before-feed.sh
+2021-02-19T00:23:08.6472193Z   DIY_P2_SH: diy-after-feed.sh
+2021-02-19T00:23:08.6472732Z   UPLOAD_PACKAGES_DIR: true
+2021-02-19T00:23:08.6473197Z   UPLOAD_FIRMWARE: true
+2021-02-19T00:23:08.6473679Z   UPLOAD_TO_ARTIFACTS: true
+2021-02-19T00:23:08.6474176Z   UPLOAD_TO_REALEASE: false
+2021-02-19T00:23:08.6474764Z   TELEGRAM_NOTIFICATION: true
+2021-02-19T00:23:08.6475306Z   WECHAT_NOTIFICATION: false
+2021-02-19T00:23:08.6475800Z   DELETE_OLD_REALEASE: true
+2021-02-19T00:23:08.6476256Z   TZ: Asia/Shanghai
+2021-02-19T00:23:08.6476645Z   DATE: 210219
+2021-02-19T00:23:08.6477002Z   FILE_DATE: 202102190819
+2021-02-19T00:23:08.6477407Z ##[endgroup]
+2021-02-19T00:23:08.6700309Z fatal: Invalid revision range 97a4ffcc125611dd5f307d54570373832a73e62d..HEAD
+2021-02-19T00:23:08.6756491Z fatal: Invalid revision range 97a4ffcc125611dd5f307d54570373832a73e62d..73fdfdf6aa62f0b28535b036313266f2ab06e993
+2021-02-19T00:23:10.7500586Z fatal: Invalid revision range 97a4ffcc125611dd5f307d54570373832a73e62d..HEAD
+2021-02-19T00:23:10.7554634Z fatal: Invalid revision range 97a4ffcc125611dd5f307d54570373832a73e62d..73fdfdf6aa62f0b28535b036313266f2ab06e993
+2021-02-19T00:23:22.4137331Z 
+2021-02-19T00:23:27.7418632Z #
+2021-02-19T00:23:27.7419725Z # configuration written to .config
+2021-02-19T00:23:27.7420455Z #
+2021-02-19T00:23:27.7634882Z fatal: Invalid revision range 97a4ffcc125611dd5f307d54570373832a73e62d..HEAD
+2021-02-19T00:23:27.7686773Z fatal: Invalid revision range 97a4ffcc125611dd5f307d54570373832a73e62d..73fdfdf6aa62f0b28535b036313266f2ab06e993
+2021-02-19T00:23:27.8284930Z fatal: Invalid revision range 97a4ffcc125611dd5f307d54570373832a73e62d..HEAD
+2021-02-19T00:23:27.8344209Z fatal: Invalid revision range 97a4ffcc125611dd5f307d54570373832a73e62d..73fdfdf6aa62f0b28535b036313266f2ab06e993
+2021-02-19T00:23:35.3575408Z fatal: Invalid revision range 97a4ffcc125611dd5f307d54570373832a73e62d..HEAD
+2021-02-19T00:23:35.3631101Z fatal: Invalid revision range 97a4ffcc125611dd5f307d54570373832a73e62d..73fdfdf6aa62f0b28535b036313266f2ab06e993
+2021-02-19T00:23:35.4146125Z fatal: Invalid revision range 97a4ffcc125611dd5f307d54570373832a73e62d..HEAD
+2021-02-19T00:23:35.4201756Z fatal: Invalid revision range 97a4ffcc125611dd5f307d54570373832a73e62d..73fdfdf6aa62f0b28535b036313266f2ab06e993
+2021-02-19T00:23:43.7573398Z time: target/linux/prereq#0.11#0.03#0.15
 make\[1] tools/flock/compile
 make\[2] -C tools/flock compile
 make\[1] tools/download
+make\[2] -C tools/mpfr download
 make\[2] -C tools/gmp download
-make\[2] -C tools/mpc download
+make\[2] -C tools/m4 download
 make\[2] -C tools/expat download
 make\[2] -C tools/libtool download
-make\[2] -C tools/mpfr download
-make\[2] -C tools/libelf download
 make\[2] -C tools/autoconf download
-make\[2] -C tools/m4 download
+make\[2] -C tools/libelf download
+make\[2] -C tools/mpc download
 make\[2] -C tools/autoconf-archive download
 make\[2] -C tools/automake download
 make\[2] -C tools/flex download
 make\[2] -C tools/bison download
-make\[2] -C tools/mklibs download
 make\[2] -C tools/pkgconf download
+make\[2] -C tools/mklibs download
 make\[2] -C tools/zlib download
 make\[2] -C tools/sstrip download
 make\[2] -C tools/make-ext4fs download
@@ -90,24 +90,25 @@ make\[2] -C tools/patch download
 make\[2] -C tools/flock download
 make\[2] -C tools/sed download
 make\[1] toolchain/download
-make\[2] -C toolchain/binutils download
-make\[2] -C toolchain/gdb download
-make\[2] -C toolchain/nasm download
-make\[2] -C toolchain/kernel-headers download
-make\[2] -C toolchain/musl download
 make\[2] -C toolchain/gcc/initial download
-make\[2] -C toolchain/fortify-headers download
+make\[2] -C toolchain/gdb download
+make\[2] -C toolchain/musl download
+make\[2] -C toolchain/kernel-headers download
 make\[2] -C toolchain/gcc/final download
+make\[2] -C toolchain/nasm download
+make\[2] -C toolchain/fortify-headers download
+make\[2] -C toolchain/binutils download
 make\[1] package/download
+make\[2] -C feeds/luci/applications/luci-app-ddns download
 make\[2] -C feeds/luci/applications/luci-app-firewall download
-make\[2] -C package/base-files download
-make\[2] -C feeds/luci/applications/luci-app-upnp download
+make\[2] -C package/OpenClash/luci-app-openclash download
 make\[2] -C package/boot/grub2 download
 make\[2] -C feeds/luci/collections/luci download
+make\[2] -C feeds/luci/applications/luci-app-aria2 download
+make\[2] -C package/base-files download
 make\[2] -C feeds/luci/applications/luci-app-nlbwmon download
 make\[2] -C feeds/luci/applications/luci-app-samba download
-make\[2] -C feeds/luci/applications/luci-app-ddns download
-make\[2] -C feeds/luci/applications/luci-app-wol download
+make\[2] -C feeds/luci/applications/luci-app-sqm download
 make\[2] -C feeds/luci/modules/luci-base download
 make\[2] -C feeds/luci/modules/luci-compat download
 make\[2] -C feeds/luci/libs/luci-lib-ip download
@@ -119,34 +120,60 @@ make\[2] -C feeds/luci/themes/luci-theme-bootstrap download
 make\[2] -C feeds/luci/libs/rpcd-mod-rrdns download
 make\[2] -C feeds/packages/kernel/antfs download
 make\[2] -C feeds/packages/utils/antfs-mount download
-make\[2] -C feeds/packages/net/bonding download
+make\[2] -C feeds/packages/net/aria2 download
+make\[2] -C feeds/packages/net/ariang download
+make\[2] -C package/boot/grub2 download
+make\[2] -C feeds/packages/utils/attr download
+make\[2] -C feeds/packages/utils/bash download
 make\[2] -C feeds/packages/utils/bc download
-make\[2] -C feeds/packages/libs/c-ares download
-make\[2] -C feeds/packages/net/etherwake download
+make\[2] -C feeds/packages/net/bonding download
+make\[2] -C feeds/packages/utils/btrfs-progs download
+make\[2] -C feeds/packages/utils/cgroupfs-mount download
+make\[2] -C feeds/packages/utils/containerd download
+make\[2] -C feeds/packages/utils/coreutils download
+make\[2] -C feeds/packages/libs/db47 download
 make\[2] -C feeds/packages/net/ddns-scripts download
+make\[2] -C feeds/packages/utils/docker-ce download
+make\[2] -C feeds/packages/libs/gdbm download
 make\[2] -C feeds/packages/admin/htop download
 make\[2] -C feeds/packages/net/iputils download
-make\[2] -C feeds/packages/libs/libhttp-parser download
+make\[2] -C feeds/packages/libs/libcap download
+make\[2] -C feeds/packages/libs/libffi download
 make\[2] -C feeds/packages/libs/libnatpmp download
+make\[2] -C feeds/packages/utils/libnetwork download
 make\[2] -C feeds/packages/libs/libuv download
+make\[2] -C feeds/packages/libs/libwebsockets download
+make\[2] -C feeds/packages/libs/libxml2 download
 make\[2] -C feeds/packages/utils/lm-sensors download
+make\[2] -C feeds/packages/utils/lrzsz download
+make\[2] -C feeds/packages/utils/lvm2 download
 make\[2] -C feeds/packages/net/miniupnpc download
-make\[2] -C feeds/packages/net/miniupnpd download
+make\[2] -C feeds/packages/utils/nano download
 make\[2] -C feeds/packages/net/nlbwmon download
-make\[2] -C feeds/packages/lang/node download
-make\[2] -C feeds/packages/net/strongswan download
-make\[2] -C package/boot/grub2 download
+make\[2] -C feeds/packages/net/openssh download
+make\[2] -C feeds/packages/lang/python/python-pip-conf download
+make\[2] -C feeds/packages/lang/python/python3 download
+make\[2] -C feeds/packages/lang/ruby download
+make\[2] -C feeds/packages/utils/runc download
+make\[2] -C feeds/packages/utils/screen download
+make\[2] -C feeds/packages/utils/smartmontools download
+make\[2] -C feeds/packages/libs/sqlite3 download
+make\[2] -C feeds/packages/net/sqm-scripts download
+make\[2] -C feeds/packages/utils/tini download
+make\[2] -C feeds/packages/utils/tree download
+make\[2] -C feeds/packages/utils/ttyd download
+make\[2] -C feeds/packages/utils/vim download
 make\[2] -C feeds/packages/net/wsdd2 download
+make\[2] -C feeds/packages/utils/xz download
+make\[2] -C feeds/packages/libs/yaml download
 make\[2] -C feeds/packages/net/zerotier download
-make\[2] -C package/firmware/wireless-regdb download
 make\[2] -C package/firmware/linux-firmware download
+make\[2] -C package/firmware/wireless-regdb download
 make\[2] -C package/kernel/cryptodev-linux download
 make\[2] -C package/kernel/exfat download
+make\[2] -C package/kernel/kmod-sched-cake-oot download
 make\[2] -C package/kernel/linux download
 make\[2] -C package/kernel/mac80211 download
-make\[2] -C package/lean/UnblockNeteaseMusic download
-make\[2] -C package/lean/UnblockNeteaseMusicGo download
-make\[2] -C package/lean/adbyby download
 make\[2] -C package/lean/autocore download
 make\[2] -C package/lean/automount download
 make\[2] -C package/lean/autosamba download
@@ -156,51 +183,47 @@ make\[2] -C package/lean/ddns-scripts_dnspod download
 make\[2] -C package/lean/default-settings download
 make\[2] -C package/lean/fast-classifier download
 make\[2] -C package/lean/luci-app-accesscontrol download
-make\[2] -C package/lean/luci-app-adbyby-plus download
 make\[2] -C package/lean/luci-app-arpbind download
 make\[2] -C package/lean/luci-app-autoreboot download
+make\[2] -C package/lean/luci-app-diskman download
+make\[2] -C package/lean/luci-app-docker download
 make\[2] -C package/lean/luci-app-filetransfer download
-make\[2] -C package/lean/luci-app-ipsec-vpnd download
-make\[2] -C package/lean/luci-app-jd-dailybonus download
 make\[2] -C package/lean/luci-app-ramfree download
 make\[2] -C package/lean/luci-app-sfe download
-make\[2] -C package/lean/luci-app-unblockmusic download
-make\[2] -C package/lean/luci-app-uugamebooster download
-make\[2] -C package/lean/luci-app-vlmcsd download
-make\[2] -C package/lean/luci-app-vsftpd download
+make\[2] -C package/lean/luci-app-ttyd download
 make\[2] -C package/lean/luci-app-webadmin download
-make\[2] -C package/lean/luci-app-xlnetacc download
+make\[2] -C package/lean/luci-app-wrtbwmon download
 make\[2] -C package/lean/luci-app-zerotier download
 make\[2] -C package/lean/luci-lib-fs download
 make\[2] -C package/lean/luci-proto-bonding download
 make\[2] -C package/lean/openwrt-fullconenat download
+make\[2] -C package/lean/parted download
 make\[2] -C package/lean/pdnsd-alt download
-make\[2] -C package/lean/r8168 download
 make\[2] -C package/lean/r8125 download
+make\[2] -C package/lean/r8168 download
 make\[2] -C package/lean/shortcut-fe download
-make\[2] -C package/lean/uugamebooster download
-make\[2] -C package/lean/vlmcsd download
-make\[2] -C package/lean/vsftpd-alt download
 make\[2] -C package/lean/wget download
-make\[2] -C package/lean/wol download
 make\[2] -C package/libs/elfutils download
 make\[2] -C package/libs/gmp download
 make\[2] -C package/libs/libjson-c download
 make\[2] -C package/libs/libmnl download
 make\[2] -C package/libs/libnl-tiny download
 make\[2] -C package/libs/libubox download
+make\[2] -C package/libs/lzo download
 make\[2] -C package/libs/mbedtls download
 make\[2] -C package/libs/ncurses download
-make\[2] -C package/libs/nghttp2 download
 make\[2] -C package/libs/openssl download
 make\[2] -C package/libs/pcre download
 make\[2] -C package/libs/readline download
 make\[2] -C package/libs/sysfsutils download
 make\[2] -C package/libs/toolchain download
+make\[2] -C package/libs/uclibc++ download
 make\[2] -C package/libs/uclient download
 make\[2] -C package/libs/ustream-ssl download
 make\[2] -C package/libs/zlib download
+make\[2] -C package/luci-app-oaf download
 make\[2] -C package/luci-app-serverchan download
+make\[2] -C package/luci-theme-argon download
 make\[2] -C package/network/config/firewall download
 make\[2] -C package/network/config/netifd download
 make\[2] -C package/network/services/dnsmasq download
@@ -216,7 +239,10 @@ make\[2] -C package/network/utils/iproute2 download
 make\[2] -C package/network/utils/ipset download
 make\[2] -C package/network/utils/iptables download
 make\[2] -C package/network/utils/iw download
+make\[2] -C package/network/utils/iproute2 download
 make\[2] -C package/network/utils/iwinfo download
+make\[2] -C package/oaf download
+make\[2] -C package/open-app-filter download
 make\[2] -C package/system/ca-certificates download
 make\[2] -C package/system/fstools download
 make\[2] -C package/system/fwtool download
@@ -232,6 +258,7 @@ make\[2] -C package/system/urandom-seed download
 make\[2] -C package/system/urngd download
 make\[2] -C package/system/usign download
 make\[2] -C package/utils/busybox download
+make\[2] -C package/utils/bzip2 download
 make\[2] -C package/utils/e2fsprogs download
 make\[2] -C package/utils/f2fs-tools download
 make\[2] -C package/utils/jsonfilter download
