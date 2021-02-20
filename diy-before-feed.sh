@@ -14,7 +14,7 @@ cd -
 # 编译OpenAppFilter
 git clone https://github.com/destan19/OpenAppFilter.git && mv -f OpenAppFilter/* ./
 # 编译ServerChan
-git clone https://github.com/tty228/luci-app-serverchan.git
+git clone https://github.com/hououinkami/luci-app-serverchan.git
 #
 # 自定义主题
 #
@@ -24,5 +24,7 @@ cd lean
 rm -rf luci-theme-argon
 cd -
 git clone -b 18.06 https://github.com/jerrykuku/luci-theme-argon.git
+# 更改默认主题
+sed -i '/uci commit luci/i\uci set luci.main.mediaurlbase=/luci-static/argon' lean/default-settings/files/zzz-default-settings
 #
 cd ./

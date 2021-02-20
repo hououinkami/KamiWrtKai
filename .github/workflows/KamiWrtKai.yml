@@ -2,8 +2,12 @@ name: 编译自宅用软路由
 
 on:
   repository_dispatch:
-  # release:
-    # types: published
+  workflow_dispatch:
+    inputs:
+      ssh:
+        description: 'SSH connection to Actions'
+        required: false
+        default: 'false'
   push:
     branches:
       - master
@@ -13,8 +17,8 @@ on:
     - cron: 0 0 * * 5
   # release:
     # types: [published]
-  watch:
-    types: started
+  # watch:
+    # types: started
 
 env:
   REPO_URL: https://github.com/coolsnowwolf/lede
@@ -23,18 +27,19 @@ env:
   CONFIG_FILE: KamiWrt.config
   DIY_P1_SH: diy-before-feed.sh
   DIY_P2_SH: diy-after-feed.sh
-  SSH_ACTIONS: false
-  UPLOAD_PACKAGES_DIR: false
+  UPLOAD_PACKAGES_DIR: true
   UPLOAD_FIRMWARE: true
-  UPLOAD_TO_ARTIFACTS: true
-  UPLOAD_TO_REALEASE: false
-  WECHAT_NOTIFICATION: true
+  UPLOAD_TO_ARTIFACTS: false
+  UPLOAD_TO_REALEASE: true
+  TELEGRAM_NOTIFICATION: true
+  WECHAT_NOTIFICATION: false
+  DELETE_OLD_REALEASE: true
   TZ: Asia/Shanghai
 
 jobs:
   build:
     if: github.event.repository.owner.id == github.event.sender.id
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
 
     steps:
     - name: Checkout
@@ -44,19 +49,12 @@ jobs:
       id: date
       run: |
         date=$(date +'%y%m%d')
-        echo "::set-env name=DATE::$date"
-        echo "::set-env name=FILE_DATE::$(date +"%Y%m%d%H%M")"
-    
-    - name: 删除旧Artifacts
-      uses: c-hive/gha-remove-artifacts@v1
-      with:
-        age: '1 month'
-        skip-recent: 1
-        skip-tags: true
+        echo "DATE=$date" >> $GITHUB_ENV
+        echo "FILE_DATE=$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
 
     - name: 编译环境初始化
       env:
-        DEBIAN_FRONTEND: noninteractive 
+        DEBIAN_FRONTEND: noninteractive
       run: |
         sudo rm -rf /swapfile /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
         sudo -E apt-get -qq update
@@ -92,8 +90,11 @@ jobs:
         ../$DIY_P2_SH
 
     - name: 通过SSH连接到Actions
-      uses: P3TERX/debugger-action@main
-      if: env.SSH_ACTIONS == 'true' || contains(github.event.action, 'ssh')
+      uses: P3TERX/ssh2actions@v1.0.0
+      if: (github.event.inputs.ssh == 'true' && github.event.inputs.ssh  != 'false') || contains(github.event.action, 'ssh')
+      env:
+        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
 
     - name: 下载package
       id: package
@@ -122,10 +123,10 @@ jobs:
       run: |
         mkdir openwrt/firmware
         find openwrt/bin/targets/*/*/* -maxdepth 0  -name "*combined*"  | xargs -i mv -f {} ./openwrt/firmware/
-        # find openwrt/bin/targets/*/*/* -maxdepth 0  -name "*uefi*"  | xargs -i mv -f {} ./openwrt/firmware/
+        find openwrt/bin/targets/*/*/* -maxdepth 0  -name "*efi*"  | xargs -i mv -f {} ./openwrt/firmware/
         find openwrt/bin/targets/*/*/* -maxdepth 0  -name "config*"  | xargs -i mv -f {} ./openwrt/firmware/
         cd openwrt/firmware
-        echo "::set-env name=FIRMWARE::$PWD"
+        echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "::set-output name=status::success"
 
     - name: 打包packages文件夹
@@ -139,7 +140,7 @@ jobs:
       uses: actions/upload-artifact@master
       with:
         name: KamiWrt_firmware_${{ env.FILE_DATE }}
-        path: ${{ env.FIRMWARE }}
+        path: ${{ env.FIRMWARE }}/*combined*
 
     - name: 上传packages到artifact
       if: env.UPLOAD_PACKAGES_DIR == 'true' && env.UPLOAD_TO_ARTIFACTS == 'true' && !cancelled()
@@ -169,7 +170,38 @@ jobs:
         tag: ${{env.DATE}}
         overwrite: true
         file_glob: true
+
+    - name: 删除旧Artifacts
+      uses: c-hive/gha-remove-artifacts@v1
+      with:
+        age: '1 month'
+        skip-recent: 1
+        skip-tags: true
     
+    - name: 移除workflow运行
+      uses: GitRML/delete-workflow-runs@main
+      with:
+        retain_days: 1
+        keep_minimum_runs: 3
+
+    - name: 移除旧Releases
+      uses: dev-drprasad/delete-older-releases@v0.1.0
+      if: env.UPLOAD_TO_REALEASE == 'true' && env.DELETE_OLD_REALEASE == 'true' && !cancelled()
+      with:
+        keep_latest: 10
+        delete_tags: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.SUPER_TOKEN }}
+
+    - name: Telegram推送
+      if: env.TELEGRAM_NOTIFICATION == 'true' && !cancelled()
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_CHAT_ID }}
+        token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        args: KamiWrtKai编译完成!
+
+
     - name: WeChat推送
       if: env.WECHAT_NOTIFICATION == 'true' && !cancelled()
       run: curl https://sc.ftqq.com/${{secrets.ServerChan}}.send?text=KamiWrtKai编译完成!
