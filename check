@@ -40,202 +40,202 @@
 2021-02-20T06:29:05.4973499Z fatal: Invalid revision range 97a4ffcc125611dd5f307d54570373832a73e62d..HEAD
 2021-02-20T06:29:05.5030277Z fatal: Invalid revision range 97a4ffcc125611dd5f307d54570373832a73e62d..73fdfdf6aa62f0b28535b036313266f2ab06e993
 2021-02-20T06:29:13.9176043Z time: target/linux/prereq#0.13#0.03#0.15
-2021-02-20T06:29:15.0867967Z  make[1] tools/flock/compile
-2021-02-20T06:29:17.0928015Z  make[2] -C tools/flock compile
-2021-02-20T06:29:17.3153229Z  make[1] tools/download
-2021-02-20T06:29:19.2476253Z  make[2] -C tools/gmp download
-2021-02-20T06:29:19.2642892Z  make[2] -C tools/mpc download
-2021-02-20T06:29:19.2688663Z  make[2] -C tools/expat download
-2021-02-20T06:29:19.2797862Z  make[2] -C tools/libtool download
-2021-02-20T06:29:19.2802099Z  make[2] -C tools/mpfr download
-2021-02-20T06:29:19.2810753Z  make[2] -C tools/libelf download
-2021-02-20T06:29:19.2815174Z  make[2] -C tools/autoconf download
-2021-02-20T06:29:19.2821202Z  make[2] -C tools/m4 download
-2021-02-20T06:29:19.7461639Z  make[2] -C tools/autoconf-archive download
-2021-02-20T06:29:19.8256741Z  make[2] -C tools/automake download
-2021-02-20T06:29:24.4219307Z  make[2] -C tools/flex download
-2021-02-20T06:29:24.7116877Z  make[2] -C tools/bison download
-2021-02-20T06:29:24.7958717Z  make[2] -C tools/mklibs download
-2021-02-20T06:29:24.7960271Z  make[2] -C tools/pkgconf download
-2021-02-20T06:29:24.9239041Z  make[2] -C tools/zlib download
-2021-02-20T06:29:24.9292709Z  make[2] -C tools/sstrip download
-2021-02-20T06:29:25.0286540Z  make[2] -C tools/make-ext4fs download
-2021-02-20T06:29:25.0298223Z  make[2] -C tools/e2fsprogs download
-2021-02-20T06:29:25.1518547Z  make[2] -C tools/mtd-utils download
-2021-02-20T06:29:25.2629194Z  make[2] -C tools/mkimage download
-2021-02-20T06:29:25.3695610Z  make[2] -C tools/firmware-utils download
-2021-02-20T06:29:25.4303189Z  make[2] -C tools/patch-image download
-2021-02-20T06:29:25.4792978Z  make[2] -C tools/quilt download
-2021-02-20T06:29:25.6203397Z  make[2] -C tools/padjffs2 download
-2021-02-20T06:29:25.6656591Z  make[2] -C tools/mm-macros download
-2021-02-20T06:29:25.9804851Z  make[2] -C tools/missing-macros download
-2021-02-20T06:29:26.0272662Z  make[2] -C tools/cmake download
-2021-02-20T06:29:26.4551149Z  make[2] -C tools/bc download
-2021-02-20T06:29:26.6600003Z  make[2] -C tools/findutils download
-2021-02-20T06:29:26.7125905Z  make[2] -C tools/gengetopt download
-2021-02-20T06:29:26.7698709Z  make[2] -C tools/patchelf download
-2021-02-20T06:29:27.0788793Z  make[2] -C tools/mtools download
-2021-02-20T06:29:27.1556412Z  make[2] -C tools/dosfstools download
-2021-02-20T06:29:27.4322521Z  make[2] -C tools/libressl download
-2021-02-20T06:29:27.5188434Z  make[2] -C tools/ucl download
-2021-02-20T06:29:27.7036714Z  make[2] -C tools/upx download
-2021-02-20T06:29:28.0226449Z  make[2] -C tools/qemu download
-2021-02-20T06:29:28.0738452Z  make[2] -C tools/lzma download
-2021-02-20T06:29:28.7287187Z  make[2] -C tools/squashfskit4 download
-2021-02-20T06:29:28.9995005Z  make[2] -C tools/zip download
-2021-02-20T06:29:29.0881975Z  make[2] -C tools/zstd download
-2021-02-20T06:29:29.2926431Z  make[2] -C tools/tar download
-2021-02-20T06:29:29.3287355Z  make[2] -C tools/xz download
-2021-02-20T06:29:29.6665514Z  make[2] -C tools/patch download
-2021-02-20T06:29:29.6936039Z  make[2] -C tools/flock download
-2021-02-20T06:29:29.7606523Z  make[2] -C tools/sed download
-2021-02-20T06:29:33.6695974Z  make[1] toolchain/download
-2021-02-20T06:29:35.6332970Z  make[2] -C toolchain/binutils download
-2021-02-20T06:29:35.6372277Z  make[2] -C toolchain/gdb download
-2021-02-20T06:29:35.6385270Z  make[2] -C toolchain/nasm download
-2021-02-20T06:29:35.6453242Z  make[2] -C toolchain/kernel-headers download
-2021-02-20T06:29:35.6545936Z  make[2] -C toolchain/musl download
-2021-02-20T06:29:35.6551755Z  make[2] -C toolchain/gcc/initial download
-2021-02-20T06:29:35.6562657Z  make[2] -C toolchain/fortify-headers download
-2021-02-20T06:29:35.6593933Z  make[2] -C toolchain/gcc/final download
-2021-02-20T06:30:03.9523591Z  make[1] package/download
-2021-02-20T06:30:05.9065077Z  make[2] -C feeds/luci/applications/luci-app-firewall download
-2021-02-20T06:30:05.9370307Z  make[2] -C package/base-files download
-2021-02-20T06:30:05.9521539Z  make[2] -C feeds/luci/applications/luci-app-upnp download
-2021-02-20T06:30:05.9539860Z  make[2] -C package/boot/grub2 download
-2021-02-20T06:30:05.9546809Z  make[2] -C feeds/luci/collections/luci download
-2021-02-20T06:30:05.9563694Z  make[2] -C feeds/luci/applications/luci-app-nlbwmon download
-2021-02-20T06:30:05.9572887Z  make[2] -C feeds/luci/applications/luci-app-samba download
-2021-02-20T06:30:05.9588735Z  make[2] -C feeds/luci/applications/luci-app-ddns download
-2021-02-20T06:30:06.4012704Z  make[2] -C feeds/luci/applications/luci-app-wol download
-2021-02-20T06:30:06.4037520Z  make[2] -C feeds/luci/modules/luci-base download
-2021-02-20T06:30:07.2425424Z  make[2] -C feeds/luci/modules/luci-compat download
-2021-02-20T06:30:07.9326555Z  make[2] -C feeds/luci/libs/luci-lib-ip download
-2021-02-20T06:30:08.2346119Z  make[2] -C feeds/luci/libs/luci-lib-jsonc download
-2021-02-20T06:30:09.3312857Z  make[2] -C feeds/luci/libs/luci-lib-nixio download
-2021-02-20T06:30:09.6277616Z  make[2] -C feeds/luci/modules/luci-mod-admin-full download
-2021-02-20T06:30:10.6968967Z  make[2] -C feeds/luci/protocols/luci-proto-ppp download
-2021-02-20T06:30:11.0334771Z  make[2] -C feeds/luci/themes/luci-theme-bootstrap download
-2021-02-20T06:30:11.8093039Z  make[2] -C feeds/luci/libs/rpcd-mod-rrdns download
-2021-02-20T06:30:12.0132482Z  make[2] -C feeds/packages/kernel/antfs download
-2021-02-20T06:30:12.2787476Z  make[2] -C feeds/packages/utils/antfs-mount download
-2021-02-20T06:30:12.3112711Z  make[2] -C feeds/packages/net/bonding download
-2021-02-20T06:30:12.3344649Z  make[2] -C feeds/packages/utils/bc download
-2021-02-20T06:30:12.6677557Z  make[2] -C feeds/packages/libs/c-ares download
-2021-02-20T06:30:12.8178452Z  make[2] -C feeds/packages/net/etherwake download
-2021-02-20T06:30:12.8218432Z  make[2] -C feeds/packages/net/ddns-scripts download
-2021-02-20T06:30:12.9213249Z  make[2] -C feeds/packages/admin/htop download
-2021-02-20T06:30:13.3418470Z  make[2] -C feeds/packages/net/iputils download
-2021-02-20T06:30:13.4257755Z  make[2] -C feeds/packages/libs/libhttp-parser download
-2021-02-20T06:30:14.0452605Z  make[2] -C feeds/packages/libs/libnatpmp download
-2021-02-20T06:30:14.0454453Z  make[2] -C feeds/packages/libs/libuv download
-2021-02-20T06:30:14.0455655Z  make[2] -C feeds/packages/utils/lm-sensors download
-2021-02-20T06:30:14.2553380Z  make[2] -C feeds/packages/net/miniupnpc download
-2021-02-20T06:30:14.4076738Z  make[2] -C feeds/packages/net/miniupnpd download
-2021-02-20T06:30:14.6519224Z  make[2] -C feeds/packages/net/nlbwmon download
-2021-02-20T06:30:14.7005389Z  make[2] -C feeds/packages/lang/node download
-2021-02-20T06:30:14.7220876Z  make[2] -C feeds/packages/net/strongswan download
-2021-02-20T06:30:14.8225401Z  make[2] -C package/boot/grub2 download
-2021-02-20T06:30:15.1312096Z  make[2] -C feeds/packages/net/wsdd2 download
-2021-02-20T06:30:15.3146191Z  make[2] -C feeds/packages/net/zerotier download
-2021-02-20T06:30:15.4493988Z  make[2] -C package/firmware/wireless-regdb download
-2021-02-20T06:30:15.4543310Z  make[2] -C package/firmware/linux-firmware download
-2021-02-20T06:30:15.6583668Z  make[2] -C package/kernel/cryptodev-linux download
-2021-02-20T06:30:16.2993362Z  make[2] -C package/kernel/exfat download
-2021-02-20T06:30:16.3034826Z  make[2] -C package/kernel/linux download
-2021-02-20T06:30:16.6052301Z  make[2] -C package/kernel/mac80211 download
-2021-02-20T06:30:16.6286001Z  make[2] -C package/lean/UnblockNeteaseMusic download
-2021-02-20T06:30:16.8092709Z  make[2] -C package/lean/UnblockNeteaseMusicGo download
-2021-02-20T06:30:17.0054930Z  make[2] -C package/lean/adbyby download
-2021-02-20T06:30:17.4366981Z  make[2] -C package/lean/autocore download
-2021-02-20T06:30:17.4733176Z  make[2] -C package/lean/automount download
-2021-02-20T06:30:17.8366791Z  make[2] -C package/lean/autosamba download
-2021-02-20T06:30:17.9287082Z  make[2] -C package/lean/coremark download
-2021-02-20T06:30:17.9634954Z  make[2] -C package/lean/ddns-scripts_aliyun download
-2021-02-20T06:30:17.9750626Z  make[2] -C package/lean/ddns-scripts_dnspod download
-2021-02-20T06:30:18.3383520Z  make[2] -C package/lean/default-settings download
-2021-02-20T06:30:18.5070258Z  make[2] -C package/lean/fast-classifier download
-2021-02-20T06:30:18.5740543Z  make[2] -C package/lean/luci-app-accesscontrol download
-2021-02-20T06:30:18.9303192Z  make[2] -C package/lean/luci-app-adbyby-plus download
-2021-02-20T06:30:19.1233286Z  make[2] -C package/lean/luci-app-arpbind download
-2021-02-20T06:30:19.2298373Z  make[2] -C package/lean/luci-app-autoreboot download
-2021-02-20T06:30:19.4973359Z  make[2] -C package/lean/luci-app-filetransfer download
-2021-02-20T06:30:19.6525256Z  make[2] -C package/lean/luci-app-ipsec-vpnd download
-2021-02-20T06:30:19.8111689Z  make[2] -C package/lean/luci-app-jd-dailybonus download
-2021-02-20T06:30:20.1461973Z  make[2] -C package/lean/luci-app-ramfree download
-2021-02-20T06:30:20.1582430Z  make[2] -C package/lean/luci-app-sfe download
-2021-02-20T06:30:20.2582952Z  make[2] -C package/lean/luci-app-unblockmusic download
-2021-02-20T06:30:20.4857649Z  make[2] -C package/lean/luci-app-uugamebooster download
-2021-02-20T06:30:20.6761777Z  make[2] -C package/lean/luci-app-vlmcsd download
-2021-02-20T06:30:20.7282934Z  make[2] -C package/lean/luci-app-vsftpd download
-2021-02-20T06:30:20.8662061Z  make[2] -C package/lean/luci-app-webadmin download
-2021-02-20T06:30:20.9838544Z  make[2] -C package/lean/luci-app-xlnetacc download
-2021-02-20T06:30:21.2391605Z  make[2] -C package/lean/luci-app-zerotier download
-2021-02-20T06:30:21.2672711Z  make[2] -C package/lean/luci-lib-fs download
-2021-02-20T06:30:21.4652410Z  make[2] -C package/lean/luci-proto-bonding download
-2021-02-20T06:30:21.4763463Z  make[2] -C package/lean/openwrt-fullconenat download
-2021-02-20T06:30:21.5279121Z  make[2] -C package/lean/pdnsd-alt download
-2021-02-20T06:30:21.6919674Z  make[2] -C package/lean/r8168 download
-2021-02-20T06:30:21.6963681Z  make[2] -C package/lean/r8125 download
-2021-02-20T06:30:22.1975494Z  make[2] -C package/lean/shortcut-fe download
-2021-02-20T06:30:22.1992110Z  make[2] -C package/lean/uugamebooster download
-2021-02-20T06:30:22.6992600Z  make[2] -C package/lean/vlmcsd download
-2021-02-20T06:30:22.7935337Z  make[2] -C package/lean/vsftpd-alt download
-2021-02-20T06:30:23.1901912Z  make[2] -C package/lean/wget download
-2021-02-20T06:30:23.2240578Z  make[2] -C package/lean/wol download
-2021-02-20T06:30:23.4962659Z  make[2] -C package/libs/elfutils download
-2021-02-20T06:30:24.2689267Z  make[2] -C package/libs/gmp download
-2021-02-20T06:30:24.5292759Z  make[2] -C package/libs/libjson-c download
-2021-02-20T06:30:24.9426498Z  make[2] -C package/libs/libmnl download
-2021-02-20T06:30:25.1750497Z  make[2] -C package/libs/libnl-tiny download
-2021-02-20T06:30:26.0039418Z  make[2] -C package/libs/libubox download
-2021-02-20T06:30:26.3379398Z  make[2] -C package/libs/mbedtls download
-2021-02-20T06:30:26.7505763Z  make[2] -C package/libs/ncurses download
-2021-02-20T06:30:27.5886573Z  make[2] -C package/libs/nghttp2 download
-2021-02-20T06:30:27.7817761Z  make[2] -C package/libs/openssl download
-2021-02-20T06:30:28.1359470Z  make[2] -C package/libs/pcre download
-2021-02-20T06:30:28.7257226Z  make[2] -C package/libs/readline download
-2021-02-20T06:30:29.6061704Z  make[2] -C package/libs/sysfsutils download
-2021-02-20T06:30:29.6533992Z  make[2] -C package/libs/toolchain download
-2021-02-20T06:30:29.7797532Z  make[2] -C package/libs/uclient download
-2021-02-20T06:30:29.8978376Z  make[2] -C package/libs/ustream-ssl download
-2021-02-20T06:30:30.1271120Z  make[2] -C package/libs/zlib download
-2021-02-20T06:30:31.0507396Z  make[2] -C package/luci-app-serverchan download
-2021-02-20T06:30:31.0559314Z  make[2] -C package/network/config/firewall download
-2021-02-20T06:30:31.0813958Z  make[2] -C package/network/config/netifd download
-2021-02-20T06:30:31.1311743Z  make[2] -C package/network/services/dnsmasq download
-2021-02-20T06:30:31.3152173Z  make[2] -C package/network/services/dropbear download
-2021-02-20T06:30:31.6031033Z  make[2] -C package/network/services/hostapd download
-2021-02-20T06:30:31.6511296Z  make[2] -C package/network/services/ppp download
-2021-02-20T06:30:32.2630188Z  make[2] -C package/network/services/samba36 download
-2021-02-20T06:30:32.4374671Z  make[2] -C package/network/services/shellsync download
-2021-02-20T06:30:32.6094317Z  make[2] -C package/network/services/uhttpd download
-2021-02-20T06:30:32.8394581Z  make[2] -C package/network/utils/curl download
-2021-02-20T06:30:33.8640131Z  make[2] -C package/network/utils/ethtool download
-2021-02-20T06:30:34.8613561Z  make[2] -C package/network/utils/iproute2 download
-2021-02-20T06:30:35.2841141Z  make[2] -C package/network/utils/ipset download
-2021-02-20T06:30:35.3040058Z  make[2] -C package/network/utils/iptables download
-2021-02-20T06:30:36.1328906Z  make[2] -C package/network/utils/iw download
-2021-02-20T06:30:36.5636021Z  make[2] -C package/network/utils/iwinfo download
-2021-02-20T06:30:37.8474762Z  make[2] -C package/system/ca-certificates download
-2021-02-20T06:30:38.1365483Z  make[2] -C package/system/fstools download
-2021-02-20T06:30:39.4139861Z  make[2] -C package/system/fwtool download
-2021-02-20T06:30:39.4182372Z  make[2] -C package/system/mtd download
-2021-02-20T06:30:39.5956054Z  make[2] -C package/system/openwrt-keyring download
-2021-02-20T06:30:40.1766111Z  make[2] -C package/system/opkg download
-2021-02-20T06:30:40.5427455Z  make[2] -C package/system/procd download
-2021-02-20T06:30:40.5536146Z  make[2] -C package/system/rpcd download
-2021-02-20T06:30:40.7132630Z  make[2] -C package/system/ubox download
-2021-02-20T06:30:41.8713406Z  make[2] -C package/system/ubus download
-2021-02-20T06:30:42.1951921Z  make[2] -C package/system/uci download
-2021-02-20T06:30:42.2248753Z  make[2] -C package/system/urandom-seed download
-2021-02-20T06:30:42.2797235Z  make[2] -C package/system/urngd download
-2021-02-20T06:30:42.5209526Z  make[2] -C package/system/usign download
-2021-02-20T06:30:43.2056162Z  make[2] -C package/utils/busybox download
-2021-02-20T06:30:43.4283347Z  make[2] -C package/utils/e2fsprogs download
-2021-02-20T06:30:43.6407499Z  make[2] -C package/utils/f2fs-tools download
-2021-02-20T06:30:43.6844067Z  make[2] -C package/utils/jsonfilter download
-2021-02-20T06:30:43.8971916Z  make[2] -C package/utils/lua download
-2021-02-20T06:30:44.0653126Z  make[2] -C package/utils/util-linux download
-2021-02-20T06:35:35.7899445Z  make[1] target/download
-2021-02-20T06:35:37.8002294Z  make[2] -C target/linux download
+make\[1] tools/flock/compile
+make\[2] -C tools/flock compile
+make\[1] tools/download
+make\[2] -C tools/gmp download
+make\[2] -C tools/mpc download
+make\[2] -C tools/expat download
+make\[2] -C tools/libtool download
+make\[2] -C tools/mpfr download
+make\[2] -C tools/libelf download
+make\[2] -C tools/autoconf download
+make\[2] -C tools/m4 download
+make\[2] -C tools/autoconf-archive download
+make\[2] -C tools/automake download
+make\[2] -C tools/flex download
+make\[2] -C tools/bison download
+make\[2] -C tools/mklibs download
+make\[2] -C tools/pkgconf download
+make\[2] -C tools/zlib download
+make\[2] -C tools/sstrip download
+make\[2] -C tools/make-ext4fs download
+make\[2] -C tools/e2fsprogs download
+make\[2] -C tools/mtd-utils download
+make\[2] -C tools/mkimage download
+make\[2] -C tools/firmware-utils download
+make\[2] -C tools/patch-image download
+make\[2] -C tools/quilt download
+make\[2] -C tools/padjffs2 download
+make\[2] -C tools/mm-macros download
+make\[2] -C tools/missing-macros download
+make\[2] -C tools/cmake download
+make\[2] -C tools/bc download
+make\[2] -C tools/findutils download
+make\[2] -C tools/gengetopt download
+make\[2] -C tools/patchelf download
+make\[2] -C tools/mtools download
+make\[2] -C tools/dosfstools download
+make\[2] -C tools/libressl download
+make\[2] -C tools/ucl download
+make\[2] -C tools/upx download
+make\[2] -C tools/qemu download
+make\[2] -C tools/lzma download
+make\[2] -C tools/squashfskit4 download
+make\[2] -C tools/zip download
+make\[2] -C tools/zstd download
+make\[2] -C tools/tar download
+make\[2] -C tools/xz download
+make\[2] -C tools/patch download
+make\[2] -C tools/flock download
+make\[2] -C tools/sed download
+make\[1] toolchain/download
+make\[2] -C toolchain/binutils download
+make\[2] -C toolchain/gdb download
+make\[2] -C toolchain/nasm download
+make\[2] -C toolchain/kernel-headers download
+make\[2] -C toolchain/musl download
+make\[2] -C toolchain/gcc/initial download
+make\[2] -C toolchain/fortify-headers download
+make\[2] -C toolchain/gcc/final download
+make\[1] package/download
+make\[2] -C feeds/luci/applications/luci-app-firewall download
+make\[2] -C package/base-files download
+make\[2] -C feeds/luci/applications/luci-app-upnp download
+make\[2] -C package/boot/grub2 download
+make\[2] -C feeds/luci/collections/luci download
+make\[2] -C feeds/luci/applications/luci-app-nlbwmon download
+make\[2] -C feeds/luci/applications/luci-app-samba download
+make\[2] -C feeds/luci/applications/luci-app-ddns download
+make\[2] -C feeds/luci/applications/luci-app-wol download
+make\[2] -C feeds/luci/modules/luci-base download
+make\[2] -C feeds/luci/modules/luci-compat download
+make\[2] -C feeds/luci/libs/luci-lib-ip download
+make\[2] -C feeds/luci/libs/luci-lib-jsonc download
+make\[2] -C feeds/luci/libs/luci-lib-nixio download
+make\[2] -C feeds/luci/modules/luci-mod-admin-full download
+make\[2] -C feeds/luci/protocols/luci-proto-ppp download
+make\[2] -C feeds/luci/themes/luci-theme-bootstrap download
+make\[2] -C feeds/luci/libs/rpcd-mod-rrdns download
+make\[2] -C feeds/packages/kernel/antfs download
+make\[2] -C feeds/packages/utils/antfs-mount download
+make\[2] -C feeds/packages/net/bonding download
+make\[2] -C feeds/packages/utils/bc download
+make\[2] -C feeds/packages/libs/c-ares download
+make\[2] -C feeds/packages/net/etherwake download
+make\[2] -C feeds/packages/net/ddns-scripts download
+make\[2] -C feeds/packages/admin/htop download
+make\[2] -C feeds/packages/net/iputils download
+make\[2] -C feeds/packages/libs/libhttp-parser download
+make\[2] -C feeds/packages/libs/libnatpmp download
+make\[2] -C feeds/packages/libs/libuv download
+make\[2] -C feeds/packages/utils/lm-sensors download
+make\[2] -C feeds/packages/net/miniupnpc download
+make\[2] -C feeds/packages/net/miniupnpd download
+make\[2] -C feeds/packages/net/nlbwmon download
+make\[2] -C feeds/packages/lang/node download
+make\[2] -C feeds/packages/net/strongswan download
+make\[2] -C package/boot/grub2 download
+make\[2] -C feeds/packages/net/wsdd2 download
+make\[2] -C feeds/packages/net/zerotier download
+make\[2] -C package/firmware/wireless-regdb download
+make\[2] -C package/firmware/linux-firmware download
+make\[2] -C package/kernel/cryptodev-linux download
+make\[2] -C package/kernel/exfat download
+make\[2] -C package/kernel/linux download
+make\[2] -C package/kernel/mac80211 download
+make\[2] -C package/lean/UnblockNeteaseMusic download
+make\[2] -C package/lean/UnblockNeteaseMusicGo download
+make\[2] -C package/lean/adbyby download
+make\[2] -C package/lean/autocore download
+make\[2] -C package/lean/automount download
+make\[2] -C package/lean/autosamba download
+make\[2] -C package/lean/coremark download
+make\[2] -C package/lean/ddns-scripts_aliyun download
+make\[2] -C package/lean/ddns-scripts_dnspod download
+make\[2] -C package/lean/default-settings download
+make\[2] -C package/lean/fast-classifier download
+make\[2] -C package/lean/luci-app-accesscontrol download
+make\[2] -C package/lean/luci-app-adbyby-plus download
+make\[2] -C package/lean/luci-app-arpbind download
+make\[2] -C package/lean/luci-app-autoreboot download
+make\[2] -C package/lean/luci-app-filetransfer download
+make\[2] -C package/lean/luci-app-ipsec-vpnd download
+make\[2] -C package/lean/luci-app-jd-dailybonus download
+make\[2] -C package/lean/luci-app-ramfree download
+make\[2] -C package/lean/luci-app-sfe download
+make\[2] -C package/lean/luci-app-unblockmusic download
+make\[2] -C package/lean/luci-app-uugamebooster download
+make\[2] -C package/lean/luci-app-vlmcsd download
+make\[2] -C package/lean/luci-app-vsftpd download
+make\[2] -C package/lean/luci-app-webadmin download
+make\[2] -C package/lean/luci-app-xlnetacc download
+make\[2] -C package/lean/luci-app-zerotier download
+make\[2] -C package/lean/luci-lib-fs download
+make\[2] -C package/lean/luci-proto-bonding download
+make\[2] -C package/lean/openwrt-fullconenat download
+make\[2] -C package/lean/pdnsd-alt download
+make\[2] -C package/lean/r8168 download
+make\[2] -C package/lean/r8125 download
+make\[2] -C package/lean/shortcut-fe download
+make\[2] -C package/lean/uugamebooster download
+make\[2] -C package/lean/vlmcsd download
+make\[2] -C package/lean/vsftpd-alt download
+make\[2] -C package/lean/wget download
+make\[2] -C package/lean/wol download
+make\[2] -C package/libs/elfutils download
+make\[2] -C package/libs/gmp download
+make\[2] -C package/libs/libjson-c download
+make\[2] -C package/libs/libmnl download
+make\[2] -C package/libs/libnl-tiny download
+make\[2] -C package/libs/libubox download
+make\[2] -C package/libs/mbedtls download
+make\[2] -C package/libs/ncurses download
+make\[2] -C package/libs/nghttp2 download
+make\[2] -C package/libs/openssl download
+make\[2] -C package/libs/pcre download
+make\[2] -C package/libs/readline download
+make\[2] -C package/libs/sysfsutils download
+make\[2] -C package/libs/toolchain download
+make\[2] -C package/libs/uclient download
+make\[2] -C package/libs/ustream-ssl download
+make\[2] -C package/libs/zlib download
+make\[2] -C package/luci-app-serverchan download
+make\[2] -C package/network/config/firewall download
+make\[2] -C package/network/config/netifd download
+make\[2] -C package/network/services/dnsmasq download
+make\[2] -C package/network/services/dropbear download
+make\[2] -C package/network/services/hostapd download
+make\[2] -C package/network/services/ppp download
+make\[2] -C package/network/services/samba36 download
+make\[2] -C package/network/services/shellsync download
+make\[2] -C package/network/services/uhttpd download
+make\[2] -C package/network/utils/curl download
+make\[2] -C package/network/utils/ethtool download
+make\[2] -C package/network/utils/iproute2 download
+make\[2] -C package/network/utils/ipset download
+make\[2] -C package/network/utils/iptables download
+make\[2] -C package/network/utils/iw download
+make\[2] -C package/network/utils/iwinfo download
+make\[2] -C package/system/ca-certificates download
+make\[2] -C package/system/fstools download
+make\[2] -C package/system/fwtool download
+make\[2] -C package/system/mtd download
+make\[2] -C package/system/openwrt-keyring download
+make\[2] -C package/system/opkg download
+make\[2] -C package/system/procd download
+make\[2] -C package/system/rpcd download
+make\[2] -C package/system/ubox download
+make\[2] -C package/system/ubus download
+make\[2] -C package/system/uci download
+make\[2] -C package/system/urandom-seed download
+make\[2] -C package/system/urngd download
+make\[2] -C package/system/usign download
+make\[2] -C package/utils/busybox download
+make\[2] -C package/utils/e2fsprogs download
+make\[2] -C package/utils/f2fs-tools download
+make\[2] -C package/utils/jsonfilter download
+make\[2] -C package/utils/lua download
+make\[2] -C package/utils/util-linux download
+make\[1] target/download
+make\[2] -C target/linux download
