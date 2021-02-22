@@ -1,268 +1,267 @@
-2021-02-19T00:23:08.6420850Z ##[group]Run cd openwrt
-2021-02-19T00:23:08.6421446Z [36;1mcd openwrt[0m
-2021-02-19T00:23:08.6421873Z [36;1mmake defconfig[0m
-2021-02-19T00:23:08.6422331Z [36;1mmake download -j8[0m
-2021-02-19T00:23:08.6422828Z [36;1mfind dl -size -1024c -exec ls -l {} \;[0m
-2021-02-19T00:23:08.6423343Z [36;1mfind dl -size -1024c -exec rm -f {} \;[0m
-2021-02-19T00:23:08.6468150Z shell: /bin/bash -e {0}
-2021-02-19T00:23:08.6468556Z env:
-2021-02-19T00:23:08.6469147Z   REPO_URL: https://github.com/coolsnowwolf/lede
-2021-02-19T00:23:08.6469765Z   REPO_BRANCH: master
-2021-02-19T00:23:08.6470282Z   FEEDS_CONF: feeds.conf.default
-2021-02-19T00:23:08.6470920Z   CONFIG_FILE: KamiWrt.config
-2021-02-19T00:23:08.6471499Z   DIY_P1_SH: diy-before-feed.sh
-2021-02-19T00:23:08.6472193Z   DIY_P2_SH: diy-after-feed.sh
-2021-02-19T00:23:08.6472732Z   UPLOAD_PACKAGES_DIR: true
-2021-02-19T00:23:08.6473197Z   UPLOAD_FIRMWARE: true
-2021-02-19T00:23:08.6473679Z   UPLOAD_TO_ARTIFACTS: true
-2021-02-19T00:23:08.6474176Z   UPLOAD_TO_REALEASE: false
-2021-02-19T00:23:08.6474764Z   TELEGRAM_NOTIFICATION: true
-2021-02-19T00:23:08.6475306Z   WECHAT_NOTIFICATION: false
-2021-02-19T00:23:08.6475800Z   DELETE_OLD_REALEASE: true
-2021-02-19T00:23:08.6476256Z   TZ: Asia/Shanghai
-2021-02-19T00:23:08.6476645Z   DATE: 210219
-2021-02-19T00:23:08.6477002Z   FILE_DATE: 202102190819
-2021-02-19T00:23:08.6477407Z ##[endgroup]
-2021-02-19T00:23:08.6700309Z fatal: Invalid revision range 97a4ffcc125611dd5f307d54570373832a73e62d..HEAD
-2021-02-19T00:23:08.6756491Z fatal: Invalid revision range 97a4ffcc125611dd5f307d54570373832a73e62d..73fdfdf6aa62f0b28535b036313266f2ab06e993
-2021-02-19T00:23:10.7500586Z fatal: Invalid revision range 97a4ffcc125611dd5f307d54570373832a73e62d..HEAD
-2021-02-19T00:23:10.7554634Z fatal: Invalid revision range 97a4ffcc125611dd5f307d54570373832a73e62d..73fdfdf6aa62f0b28535b036313266f2ab06e993
-2021-02-19T00:23:22.4137331Z 
-2021-02-19T00:23:27.7418632Z #
-2021-02-19T00:23:27.7419725Z # configuration written to .config
-2021-02-19T00:23:27.7420455Z #
-2021-02-19T00:23:27.7634882Z fatal: Invalid revision range 97a4ffcc125611dd5f307d54570373832a73e62d..HEAD
-2021-02-19T00:23:27.7686773Z fatal: Invalid revision range 97a4ffcc125611dd5f307d54570373832a73e62d..73fdfdf6aa62f0b28535b036313266f2ab06e993
-2021-02-19T00:23:27.8284930Z fatal: Invalid revision range 97a4ffcc125611dd5f307d54570373832a73e62d..HEAD
-2021-02-19T00:23:27.8344209Z fatal: Invalid revision range 97a4ffcc125611dd5f307d54570373832a73e62d..73fdfdf6aa62f0b28535b036313266f2ab06e993
-2021-02-19T00:23:35.3575408Z fatal: Invalid revision range 97a4ffcc125611dd5f307d54570373832a73e62d..HEAD
-2021-02-19T00:23:35.3631101Z fatal: Invalid revision range 97a4ffcc125611dd5f307d54570373832a73e62d..73fdfdf6aa62f0b28535b036313266f2ab06e993
-2021-02-19T00:23:35.4146125Z fatal: Invalid revision range 97a4ffcc125611dd5f307d54570373832a73e62d..HEAD
-2021-02-19T00:23:35.4201756Z fatal: Invalid revision range 97a4ffcc125611dd5f307d54570373832a73e62d..73fdfdf6aa62f0b28535b036313266f2ab06e993
-2021-02-19T00:23:43.7573398Z time: target/linux/prereq#0.11#0.03#0.15
-make\[1] tools/flock/compile
-make\[2] -C tools/flock compile
-make\[1] tools/download
-make\[2] -C tools/mpfr download
-make\[2] -C tools/gmp download
-make\[2] -C tools/m4 download
-make\[2] -C tools/expat download
-make\[2] -C tools/libtool download
-make\[2] -C tools/autoconf download
-make\[2] -C tools/libelf download
-make\[2] -C tools/mpc download
-make\[2] -C tools/autoconf-archive download
-make\[2] -C tools/automake download
-make\[2] -C tools/flex download
-make\[2] -C tools/bison download
-make\[2] -C tools/pkgconf download
-make\[2] -C tools/mklibs download
-make\[2] -C tools/zlib download
-make\[2] -C tools/sstrip download
-make\[2] -C tools/make-ext4fs download
-make\[2] -C tools/e2fsprogs download
-make\[2] -C tools/mtd-utils download
-make\[2] -C tools/mkimage download
-make\[2] -C tools/firmware-utils download
-make\[2] -C tools/patch-image download
-make\[2] -C tools/quilt download
-make\[2] -C tools/padjffs2 download
-make\[2] -C tools/mm-macros download
-make\[2] -C tools/missing-macros download
-make\[2] -C tools/cmake download
-make\[2] -C tools/bc download
-make\[2] -C tools/findutils download
-make\[2] -C tools/gengetopt download
-make\[2] -C tools/patchelf download
-make\[2] -C tools/mtools download
-make\[2] -C tools/dosfstools download
-make\[2] -C tools/libressl download
-make\[2] -C tools/ucl download
-make\[2] -C tools/upx download
-make\[2] -C tools/qemu download
-make\[2] -C tools/lzma download
-make\[2] -C tools/squashfskit4 download
-make\[2] -C tools/zip download
-make\[2] -C tools/zstd download
-make\[2] -C tools/tar download
-make\[2] -C tools/xz download
-make\[2] -C tools/patch download
-make\[2] -C tools/flock download
-make\[2] -C tools/sed download
-make\[1] toolchain/download
-make\[2] -C toolchain/gcc/initial download
-make\[2] -C toolchain/gdb download
-make\[2] -C toolchain/musl download
-make\[2] -C toolchain/kernel-headers download
-make\[2] -C toolchain/gcc/final download
-make\[2] -C toolchain/nasm download
-make\[2] -C toolchain/fortify-headers download
-make\[2] -C toolchain/binutils download
-make\[1] package/download
-make\[2] -C feeds/luci/applications/luci-app-ddns download
-make\[2] -C feeds/luci/applications/luci-app-firewall download
-make\[2] -C package/OpenClash/luci-app-openclash download
-make\[2] -C package/boot/grub2 download
-make\[2] -C feeds/luci/collections/luci download
-make\[2] -C feeds/luci/applications/luci-app-aria2 download
-make\[2] -C package/base-files download
-make\[2] -C feeds/luci/applications/luci-app-nlbwmon download
-make\[2] -C feeds/luci/applications/luci-app-samba download
-make\[2] -C feeds/luci/applications/luci-app-sqm download
-make\[2] -C feeds/luci/modules/luci-base download
-make\[2] -C feeds/luci/modules/luci-compat download
-make\[2] -C feeds/luci/libs/luci-lib-ip download
-make\[2] -C feeds/luci/libs/luci-lib-jsonc download
-make\[2] -C feeds/luci/libs/luci-lib-nixio download
-make\[2] -C feeds/luci/modules/luci-mod-admin-full download
-make\[2] -C feeds/luci/protocols/luci-proto-ppp download
-make\[2] -C feeds/luci/themes/luci-theme-bootstrap download
-make\[2] -C feeds/luci/libs/rpcd-mod-rrdns download
-make\[2] -C feeds/packages/kernel/antfs download
-make\[2] -C feeds/packages/utils/antfs-mount download
-make\[2] -C feeds/packages/net/aria2 download
-make\[2] -C feeds/packages/net/ariang download
-make\[2] -C package/boot/grub2 download
-make\[2] -C feeds/packages/utils/attr download
-make\[2] -C feeds/packages/utils/bash download
-make\[2] -C feeds/packages/utils/bc download
-make\[2] -C feeds/packages/net/bonding download
-make\[2] -C feeds/packages/utils/btrfs-progs download
-make\[2] -C feeds/packages/utils/cgroupfs-mount download
-make\[2] -C feeds/packages/utils/containerd download
-make\[2] -C feeds/packages/utils/coreutils download
-make\[2] -C feeds/packages/libs/db47 download
-make\[2] -C feeds/packages/net/ddns-scripts download
-make\[2] -C feeds/packages/utils/docker-ce download
-make\[2] -C feeds/packages/libs/gdbm download
-make\[2] -C feeds/packages/admin/htop download
-make\[2] -C feeds/packages/net/iputils download
-make\[2] -C feeds/packages/libs/libcap download
-make\[2] -C feeds/packages/libs/libffi download
-make\[2] -C feeds/packages/libs/libnatpmp download
-make\[2] -C feeds/packages/utils/libnetwork download
-make\[2] -C feeds/packages/libs/libuv download
-make\[2] -C feeds/packages/libs/libwebsockets download
-make\[2] -C feeds/packages/libs/libxml2 download
-make\[2] -C feeds/packages/utils/lm-sensors download
-make\[2] -C feeds/packages/utils/lrzsz download
-make\[2] -C feeds/packages/utils/lvm2 download
-make\[2] -C feeds/packages/net/miniupnpc download
-make\[2] -C feeds/packages/utils/nano download
-make\[2] -C feeds/packages/net/nlbwmon download
-make\[2] -C feeds/packages/net/openssh download
-make\[2] -C feeds/packages/lang/python/python-pip-conf download
-make\[2] -C feeds/packages/lang/python/python3 download
-make\[2] -C feeds/packages/lang/ruby download
-make\[2] -C feeds/packages/utils/runc download
-make\[2] -C feeds/packages/utils/screen download
-make\[2] -C feeds/packages/utils/smartmontools download
-make\[2] -C feeds/packages/libs/sqlite3 download
-make\[2] -C feeds/packages/net/sqm-scripts download
-make\[2] -C feeds/packages/utils/tini download
-make\[2] -C feeds/packages/utils/tree download
-make\[2] -C feeds/packages/utils/ttyd download
-make\[2] -C feeds/packages/utils/vim download
-make\[2] -C feeds/packages/net/wsdd2 download
-make\[2] -C feeds/packages/utils/xz download
-make\[2] -C feeds/packages/libs/yaml download
-make\[2] -C feeds/packages/net/zerotier download
-make\[2] -C package/firmware/linux-firmware download
-make\[2] -C package/firmware/wireless-regdb download
-make\[2] -C package/kernel/cryptodev-linux download
-make\[2] -C package/kernel/exfat download
-make\[2] -C package/kernel/kmod-sched-cake-oot download
-make\[2] -C package/kernel/linux download
-make\[2] -C package/kernel/mac80211 download
-make\[2] -C package/lean/autocore download
-make\[2] -C package/lean/automount download
-make\[2] -C package/lean/autosamba download
-make\[2] -C package/lean/coremark download
-make\[2] -C package/lean/ddns-scripts_aliyun download
-make\[2] -C package/lean/ddns-scripts_dnspod download
-make\[2] -C package/lean/default-settings download
-make\[2] -C package/lean/fast-classifier download
-make\[2] -C package/lean/luci-app-accesscontrol download
-make\[2] -C package/lean/luci-app-arpbind download
-make\[2] -C package/lean/luci-app-autoreboot download
-make\[2] -C package/lean/luci-app-diskman download
-make\[2] -C package/lean/luci-app-docker download
-make\[2] -C package/lean/luci-app-filetransfer download
-make\[2] -C package/lean/luci-app-ramfree download
-make\[2] -C package/lean/luci-app-sfe download
-make\[2] -C package/lean/luci-app-ttyd download
-make\[2] -C package/lean/luci-app-webadmin download
-make\[2] -C package/lean/luci-app-wrtbwmon download
-make\[2] -C package/lean/luci-app-zerotier download
-make\[2] -C package/lean/luci-lib-fs download
-make\[2] -C package/lean/luci-proto-bonding download
-make\[2] -C package/lean/openwrt-fullconenat download
-make\[2] -C package/lean/parted download
-make\[2] -C package/lean/pdnsd-alt download
-make\[2] -C package/lean/r8125 download
-make\[2] -C package/lean/r8168 download
-make\[2] -C package/lean/shortcut-fe download
-make\[2] -C package/lean/wget download
-make\[2] -C package/libs/elfutils download
-make\[2] -C package/libs/gmp download
-make\[2] -C package/libs/libjson-c download
-make\[2] -C package/libs/libmnl download
-make\[2] -C package/libs/libnl-tiny download
-make\[2] -C package/libs/libubox download
-make\[2] -C package/libs/lzo download
-make\[2] -C package/libs/mbedtls download
-make\[2] -C package/libs/ncurses download
-make\[2] -C package/libs/openssl download
-make\[2] -C package/libs/pcre download
-make\[2] -C package/libs/readline download
-make\[2] -C package/libs/sysfsutils download
-make\[2] -C package/libs/toolchain download
-make\[2] -C package/libs/uclibc++ download
-make\[2] -C package/libs/uclient download
-make\[2] -C package/libs/ustream-ssl download
-make\[2] -C package/libs/zlib download
-make\[2] -C package/luci-app-oaf download
-make\[2] -C package/luci-app-serverchan download
-make\[2] -C package/luci-theme-argon download
-make\[2] -C package/network/config/firewall download
-make\[2] -C package/network/config/netifd download
-make\[2] -C package/network/services/dnsmasq download
-make\[2] -C package/network/services/dropbear download
-make\[2] -C package/network/services/hostapd download
-make\[2] -C package/network/services/ppp download
-make\[2] -C package/network/services/samba36 download
-make\[2] -C package/network/services/shellsync download
-make\[2] -C package/network/services/uhttpd download
-make\[2] -C package/network/utils/curl download
-make\[2] -C package/network/utils/ethtool download
-make\[2] -C package/network/utils/iproute2 download
-make\[2] -C package/network/utils/ipset download
-make\[2] -C package/network/utils/iptables download
-make\[2] -C package/network/utils/iw download
-make\[2] -C package/network/utils/iproute2 download
-make\[2] -C package/network/utils/iwinfo download
-make\[2] -C package/oaf download
-make\[2] -C package/open-app-filter download
-make\[2] -C package/system/ca-certificates download
-make\[2] -C package/system/fstools download
-make\[2] -C package/system/fwtool download
-make\[2] -C package/system/mtd download
-make\[2] -C package/system/openwrt-keyring download
-make\[2] -C package/system/opkg download
-make\[2] -C package/system/procd download
-make\[2] -C package/system/rpcd download
-make\[2] -C package/system/ubox download
-make\[2] -C package/system/ubus download
-make\[2] -C package/system/uci download
-make\[2] -C package/system/urandom-seed download
-make\[2] -C package/system/urngd download
-make\[2] -C package/system/usign download
-make\[2] -C package/utils/busybox download
-make\[2] -C package/utils/bzip2 download
-make\[2] -C package/utils/e2fsprogs download
-make\[2] -C package/utils/f2fs-tools download
-make\[2] -C package/utils/jsonfilter download
-make\[2] -C package/utils/lua download
-make\[2] -C package/utils/util-linux download
-make\[1] target/download
-make\[2] -C target/linux download
+2021-02-20T06:35:37.8706776Z ##[group]Run cd openwrt
+2021-02-20T06:35:37.8707372Z [36;1mcd openwrt[0m
+2021-02-20T06:35:37.8707908Z [36;1mecho -e "$(nproc) thread compile"[0m
+2021-02-20T06:35:37.8708539Z [36;1mmake -j$(nproc) || make -j1 || make -j1 V=s[0m
+2021-02-20T06:35:37.8709206Z [36;1mecho "::set-output name=status::success"[0m
+2021-02-20T06:35:37.8760949Z shell: /bin/bash -e {0}
+2021-02-20T06:35:37.8761421Z env:
+2021-02-20T06:35:37.8762064Z   REPO_URL: https://github.com/coolsnowwolf/lede
+2021-02-20T06:35:37.8762763Z   REPO_BRANCH: master
+2021-02-20T06:35:37.8763358Z   FEEDS_CONF: feeds.conf.default
+2021-02-20T06:35:37.8763956Z   CONFIG_FILE: ipk.config
+2021-02-20T06:35:37.8764994Z   DIY_P1_SH: diy-ipk.sh
+2021-02-20T06:35:37.8765572Z   DIY_P2_SH: diy-after-feed.sh
+2021-02-20T06:35:37.8766154Z   UPLOAD_PACKAGES_DIR: true
+2021-02-20T06:35:37.8766696Z   UPLOAD_FIRMWARE: true
+2021-02-20T06:35:37.8767240Z   UPLOAD_TO_ARTIFACTS: false
+2021-02-20T06:35:37.8767801Z   UPLOAD_TO_REALEASE: true
+2021-02-20T06:35:37.8768361Z   TELEGRAM_NOTIFICATION: true
+2021-02-20T06:35:37.8769018Z   WECHAT_NOTIFICATION: false
+2021-02-20T06:35:37.8769626Z   DELETE_OLD_REALEASE: true
+2021-02-20T06:35:37.8770137Z   TZ: Asia/Shanghai
+2021-02-20T06:35:37.8770573Z   DATE: 210220
+2021-02-20T06:35:37.8770971Z   FILE_DATE: 202102201422
+2021-02-20T06:35:37.8771425Z ##[endgroup]
+2021-02-20T06:35:37.8867486Z 2 thread compile
+2021-02-20T06:35:37.9073007Z fatal: Invalid revision range 97a4ffcc125611dd5f307d54570373832a73e62d..HEAD
+2021-02-20T06:35:37.9137386Z fatal: Invalid revision range 97a4ffcc125611dd5f307d54570373832a73e62d..73fdfdf6aa62f0b28535b036313266f2ab06e993
+2021-02-20T06:35:37.9807994Z fatal: Invalid revision range 97a4ffcc125611dd5f307d54570373832a73e62d..HEAD
+2021-02-20T06:35:37.9863095Z fatal: Invalid revision range 97a4ffcc125611dd5f307d54570373832a73e62d..73fdfdf6aa62f0b28535b036313266f2ab06e993
+2021-02-20T06:35:38.0533153Z fatal: Invalid revision range 97a4ffcc125611dd5f307d54570373832a73e62d..HEAD
+2021-02-20T06:35:38.0590086Z fatal: Invalid revision range 97a4ffcc125611dd5f307d54570373832a73e62d..73fdfdf6aa62f0b28535b036313266f2ab06e993
+make[1] world
+make[2] tools/compile
+make[2] package/cleanup
+make[3] -C tools/flock compile
+make[3] -C tools/xz compile
+make[3] -C tools/sed compile
+make[3] -C tools/tar compile
+make[3] -C tools/patch compile
+make[3] -C tools/m4 compile
+make[3] -C tools/pkgconf compile
+make[3] -C tools/expat compile
+make[3] -C tools/autoconf-archive compile
+make[3] -C tools/libressl compile
+make[3] -C tools/sstrip compile
+make[3] -C tools/patch-image compile
+make[3] -C tools/mtools compile
+make[3] -C tools/ucl compile
+make[3] -C tools/lzma compile
+make[3] -C tools/zip compile
+make[3] -C tools/zstd compile
+make[3] -C tools/autoconf compile
+make[3] -C tools/upx compile
+make[3] -C tools/automake compile
+make[3] -C tools/missing-macros compile
+make[3] -C tools/cmake compile
+make[3] -C tools/mkimage compile
+make[3] -C tools/dosfstools compile
+make[3] -C tools/libtool compile
+make[3] -C tools/gmp compile
+make[3] -C tools/libelf compile
+make[3] -C tools/flex compile
+make[3] -C tools/mklibs compile
+make[3] -C tools/e2fsprogs compile
+make[3] -C tools/mm-macros compile
+make[3] -C tools/gengetopt compile
+make[3] -C tools/patchelf compile
+make[3] -C tools/mpfr compile
+make[3] -C tools/bison compile
+make[3] -C tools/mpc compile
+make[3] -C tools/findutils compile
+make[3] -C tools/bc compile
+make[3] -C tools/quilt compile
+make[3] -C tools/padjffs2 compile
+make[3] -C tools/zlib compile
+make[3] -C tools/make-ext4fs compile
+make[3] -C tools/mtd-utils compile
+make[3] -C tools/firmware-utils compile
+make[3] -C tools/qemu compile
+make[3] -C tools/squashfskit4 compile
+make[2] toolchain/compile
+make[3] -C toolchain/binutils compile
+make[3] -C toolchain/gdb compile
+make[3] -C toolchain/fortify-headers compile
+make[3] -C toolchain/nasm compile
+make[3] -C toolchain/gcc/initial compile
+make[3] -C toolchain/kernel-headers compile
+make[3] -C toolchain/musl compile
+make[3] -C toolchain/gcc/final compile
+make[2] target/compile
+make[3] -C target/linux compile
+make[2] buildinfo
+make[2] package/compile
+make[3] diffconfig buildversion feedsversion
+make[3] -C package/libs/libjson-c host-compile
+make[3] -C package/libs/toolchain compile
+make[3] -C package/libs/ncurses host-compile
+make[3] -C package/libs/zlib compile
+make[3] -C package/system/fwtool host-compile
+make[3] -C package/system/usign host-compile
+make[3] -C package/system/openwrt-keyring compile
+make[3] -C package/boot/grub2 host-compile
+make[3] -C feeds/luci/modules/luci-base host-compile
+make[3] -C package/utils/lua host-compile
+make[3] -C package/libs/mbedtls compile
+make[3] -C feeds/packages/libs/libuv compile
+make[3] -C package/system/ca-certificates compile
+make[3] -C feeds/packages/net/etherwake compile
+make[3] -C package/lean/wol compile
+make[3] -C feeds/packages/libs/c-ares compile
+make[3] -C package/libs/sysfsutils compile
+make[3] -C feeds/packages/libs/libhttp-parser compile
+make[3] -C feeds/packages/libs/libnatpmp compile
+make[3] -C feeds/packages/utils/lm-sensors compile
+make[3] -C feeds/packages/net/miniupnpc compile
+make[3] -C feeds/packages/libs/expat host-compile
+make[3] -C feeds/packages/libs/libffi host-compile
+make[3] -C package/utils/bzip2 host-compile
+make[3] -C package/libs/nghttp2 compile
+make[3] -C package/libs/gettext compile
+make[3] -C package/libs/libiconv compile
+make[3] -C package/utils/bzip2 compile
+make[3] -C package/libs/argp-standalone compile
+make[3] -C package/libs/libmnl compile
+make[3] -C package/libs/gmp compile
+make[3] -C feeds/packages/net/wsdd2 compile
+make[3] -C package/firmware/wireless-regdb compile
+make[3] -C package/firmware/b43legacy-firmware compile
+make[3] -C package/libs/libtool compile
+make[3] -C feeds/packages/lang/golang/golang host-compile
+make[3] -C package/lean/adbyby compile
+make[3] -C package/network/utils/ethtool compile
+make[3] -C package/lean/coremark compile
+make[3] -C package/libs/uclibc++ compile
+make[3] -C package/lean/luci-app-accesscontrol compile
+make[3] -C package/lean/luci-app-ramfree compile
+make[3] -C package/lean/pdnsd-alt compile
+make[3] -C package/lean/vlmcsd compile
+make[3] -C package/lean/r8125 compile
+make[3] -C package/lean/r8168 compile
+make[3] -C package/network/services/dropbear compile
+make[3] -C package/libs/libpcap compile
+make[3] -C package/network/utils/linux-atm compile
+make[3] -C package/network/utils/resolveip compile
+make[3] -C package/utils/busybox compile
+make[3] -C package/utils/e2fsprogs host-compile
+make[3] -C package/libs/libubox host-compile
+make[3] -C package/libs/libnl-tiny compile
+make[3] -C package/libs/libjson-c compile
+make[3] -C package/utils/lua compile
+make[3] -C package/firmware/linux-firmware compile
+make[3] -C package/firmware/prism54-firmware compile
+make[3] -C package/libs/ncurses compile
+make[3] -C package/system/fwtool compile
+make[3] -C package/system/ucert host-compile
+make[3] -C package/boot/grub2 compile
+make[3] -C feeds/luci/libs/luci-lib-ip compile
+make[3] -C feeds/luci/libs/luci-lib-jsonc compile
+make[3] -C feeds/luci/libs/luci-lib-nixio compile
+make[3] -C feeds/luci/protocols/luci-proto-ppp compile
+make[3] -C feeds/luci/themes/luci-theme-bootstrap compile
+make[3] -C package/network/utils/curl compile
+make[3] -C package/libs/readline compile
+make[3] -C feeds/luci/applications/luci-app-wol compile
+make[3] -C feeds/packages/utils/bc compile
+make[3] -C feeds/packages/admin/htop compile
+make[3] -C package/boot/grub2 compile
+make[3] -C feeds/packages/net/iputils compile
+make[3] -C feeds/packages/lang/python/python3 host-compile
+make[3] -C package/libs/elfutils compile
+make[3] -C package/libs/wolfssl compile
+make[3] -C package/network/utils/iw compile
+make[3] -C package/lean/UnblockNeteaseMusicGo compile
+make[3] -C package/lean/autocore compile
+make[3] -C package/libs/pcre compile
+make[3] -C package/lean/luci-app-vlmcsd compile
+make[3] -C package/luci-app-serverchan compile
+make[3] -C package/system/opkg host-compile
+make[3] -C package/libs/libubox compile
+make[3] -C package/kernel/linux compile
+make[3] -C package/utils/util-linux compile
+make[3] -C package/utils/jsonfilter compile
+make[3] -C package/system/usign compile
+make[3] -C package/network/utils/iptables compile
+make[3] -C package/kernel/cryptodev-linux compile
+make[3] -C feeds/packages/net/nlbwmon compile
+make[3] -C package/network/services/samba36 compile
+make[3] -C feeds/packages/kernel/antfs compile
+make[3] -C feeds/packages/net/bonding compile
+make[3] -C package/network/utils/iproute2 compile
+make[3] -C package/kernel/exfat compile
+make[3] -C package/lean/shortcut-fe compile
+make[3] -C package/network/utils/ipset compile
+make[3] -C package/lean/luci-app-arpbind compile
+make[3] -C package/lean/uugamebooster compile
+make[3] -C package/lean/luci-proto-bonding compile
+make[3] -C package/network/services/shellsync compile
+make[3] -C package/system/mtd compile
+make[3] -C package/system/urngd compile
+make[3] -C package/utils/e2fsprogs compile
+make[3] -C package/utils/f2fs-tools compile
+make[3] -C package/system/ubus compile
+make[3] -C package/system/uci compile
+make[3] -C package/lean/openwrt-fullconenat compile
+make[3] -C package/libs/openssl compile
+make[3] -C feeds/luci/applications/luci-app-nlbwmon compile
+make[3] -C feeds/luci/applications/luci-app-samba compile
+make[3] -C feeds/packages/net/miniupnpd compile
+make[3] -C feeds/packages/utils/antfs-mount compile
+make[3] -C feeds/packages/net/strongswan compile
+make[3] -C feeds/packages/net/zerotier compile
+make[3] -C package/network/services/hostapd compile
+make[3] -C package/lean/autosamba compile
+make[3] -C package/lean/wget compile
+make[3] -C package/lean/fast-classifier compile
+make[3] -C package/network/services/dnsmasq compile
+make[3] -C package/lean/luci-app-ipsec-vpnd compile
+make[3] -C package/lean/luci-app-sfe compile
+make[3] -C package/lean/luci-app-uugamebooster compile
+make[3] -C package/lean/vsftpd-alt compile
+make[3] -C package/lean/luci-app-zerotier compile
+make[3] -C package/network/services/ppp compile
+make[3] -C package/network/config/netifd compile
+make[3] -C package/system/ubox compile
+make[3] -C package/network/config/firewall compile
+make[3] -C package/network/utils/iwinfo compile
+make[3] -C package/libs/ustream-ssl compile
+make[3] -C feeds/packages/net/bind compile
+make[3] -C feeds/luci/applications/luci-app-upnp compile
+make[3] -C feeds/packages/lang/node compile
+make[3] -C package/kernel/mac80211 compile
+make[3] -C package/libs/uclient compile
+make[3] -C package/lean/luci-app-vsftpd compile
+make[3] -C package/lean/luci-app-xlnetacc compile
+make[3] -C package/system/opkg compile
+make[3] -C package/system/urandom-seed compile
+make[3] -C package/system/fstools compile
+make[3] -C package/system/procd compile
+make[3] -C feeds/luci/applications/luci-app-firewall compile
+make[3] -C package/system/rpcd compile
+make[3] -C package/network/services/uhttpd compile
+make[3] -C feeds/packages/net/ddns-scripts compile
+make[3] -C package/lean/automount compile
+make[3] -C package/lean/ddns-scripts_aliyun compile
+make[3] -C package/lean/ddns-scripts_dnspod compile
+make[3] -C package/lean/luci-app-adbyby-plus compile
+make[3] -C package/lean/luci-app-webadmin compile
+make[3] -C package/base-files compile
+make[3] -C feeds/luci/modules/luci-base compile
+make[3] -C feeds/luci/libs/rpcd-mod-rrdns compile
+make[3] -C feeds/luci/modules/luci-compat compile
+make[3] -C feeds/luci/modules/luci-mod-admin-full compile
+make[3] -C feeds/luci/collections/luci compile
+make[3] -C feeds/luci/applications/luci-app-ddns compile
+make[3] -C package/lean/default-settings compile
+make[3] -C package/lean/luci-app-autoreboot compile
+make[3] -C package/lean/luci-lib-fs compile
+make[3] -C package/lean/luci-app-filetransfer compile
+make[3] -C package/lean/UnblockNeteaseMusic compile
+make[3] -C package/lean/luci-app-jd-dailybonus compile
+make[3] -C package/lean/luci-app-unblockmusic compile
+make[2] package/install
+make[2] target/install
+make[3] -C target/linux install
+make[2] package/index
+make[2] json_overview_image_info
+make[2] checksum
