@@ -1,4 +1,4 @@
-name: 编译自宅用软路由
+name: 编译自宅用软路由改
 
 on:
   repository_dispatch:
@@ -12,7 +12,7 @@ on:
     branches:
       - master
     paths:
-      - '.config'
+      - 'KamiWrt.config'
   # schedule:
     # - cron: 0 0 * * 5
   # release:
@@ -123,7 +123,7 @@ jobs:
       run: |
         mkdir openwrt/firmware
         find openwrt/bin/targets/*/*/* -maxdepth 0  -name "*combined*"  | xargs -i mv -f {} ./openwrt/firmware/
-        find openwrt/bin/targets/*/*/* -maxdepth 0  -name "*efi*"  | xargs -i mv -f {} ./openwrt/firmware/
+        # find openwrt/bin/targets/*/*/* -maxdepth 0  -name "*efi*"  | xargs -i mv -f {} ./openwrt/firmware/
         find openwrt/bin/targets/*/*/* -maxdepth 0  -name "config*"  | xargs -i mv -f {} ./openwrt/firmware/
         cd openwrt/firmware
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
