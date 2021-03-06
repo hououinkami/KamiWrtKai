@@ -1,4 +1,4 @@
-svn checkout https://github.com/openwrt/packages/trunk/utils/libnetwork packages/utils
+# svn checkout https://github.com/openwrt/packages/trunk/utils/libnetwork packages/utils
 cd package
 #
 # 自定义插件
