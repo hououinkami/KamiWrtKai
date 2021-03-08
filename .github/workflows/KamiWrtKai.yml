@@ -197,8 +197,7 @@ jobs:
     - name: 计算编译时长
       id: length
       run: |
-        echo "END_SECOND=$(date +"%s")" >> $GITHUB_ENV
-        timeLength=$[${{env.END_SECOND}}-${{env.START_SECOND}}]
+        timeLength=$[$(date +"%s")-${{env.START_SECOND}}]
         timeHour=$[$timeLength/3600]
         timeMin=$[($timeLength-$timeHour*3600)/60]
         echo "TIME_HOUR=$timeHour" >> $GITHUB_ENV
@@ -210,7 +209,7 @@ jobs:
       with:
         to: ${{ secrets.TELEGRAM_CHAT_ID }}
         token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-        args: KamiWrtKaiコンパイル完了！%0D%0A時間：${{env.TIME_HOUR}}時${{env.TIME_MIN}}分
+        args: KamiWrtKaiコンパイル完了！ 時間：${{env.TIME_HOUR}}時${{env.TIME_MIN}}分
 
 
     - name: WeChat推送

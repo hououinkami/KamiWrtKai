@@ -16,7 +16,7 @@ wget https://github.com/vernesong/OpenClash/releases/download/TUN/clash-linux-am
 tar -zxvf clash-linux-amd64.tar.gz -O > clash_game && rm -rf clash-linux-amd64.tar.gz
 chmod 0755 clash_game
 # >> 添加Clash tun内核
-find ../../../../../OpenClash/core-lateset/premium -maxdepth 0  -name "clash-linux-amd64*"  | xargs -i mv -f {} ./
+find ../../../../../OpenClash/core-lateset/premium -name "clash-linux-amd64*"  | xargs -i mv -f {} ./
 gzip -df *.gz
 mv clash-linux-amd64* clash_tun
 chmod 0755 clash_tun
