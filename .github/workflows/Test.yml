@@ -63,14 +63,13 @@ jobs:
     - name: 计算编译时长
       id: length
       run: |
-        echo "END_SECOND=$(date +"%s")" >> $GITHUB_ENV
-        a=${{env.END_SECOND}}
-        b=${{env.START_SECOND}}
-        timeLength=$(${{env.END_SECOND}}-${{env.START_SECOND}})
-        timeHour=$($timeLength/3600)
-        timeMin=$(($timeLength-$timeHour*3600)/60)
+        timeLength=$[$(date +"%s")-${{env.START_SECOND}}]
+        timeHour=$[$timeLength/3600]
+        timeMin=$[($timeLength-$timeHour*3600)/60]
         echo "TIME_HOUR=$timeHour" >> $GITHUB_ENV
         echo "TIME_MIN=$timeMin" >> $GITHUB_ENV
+        a=${{env.TIME_HOUR}}
+        b=${{env.TIME_MIN}}
 
     - name: Telegram推送
       if: env.TELEGRAM_NOTIFICATION == 'true' && !cancelled()
