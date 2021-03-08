@@ -64,6 +64,7 @@ jobs:
       id: length
       run: |
         a=$(date +"%s")
+        echo a
         timeLength=$[$(date +"%s")-${{env.START_SECOND}}]
         timeHour=$[$timeLength/3600]
         timeMin=$[($timeLength-$timeHour*3600)/60]
