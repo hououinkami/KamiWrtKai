@@ -54,7 +54,7 @@ jobs:
         echo "FILE_DATE=$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
         echo "START_SECOND=$(date +"%s")" >> $GITHUB_ENV
     
-    - name: SSH connection to Actions
+    - name: 通过SSH连接到Actions
       uses: P3TERX/ssh2actions@v1.0.0
       if: (github.event.inputs.ssh == 'true' && github.event.inputs.ssh  != 'false') || contains(github.event.action, 'ssh')
       env:
@@ -71,7 +71,7 @@ jobs:
       id: length
       run: |
         a=$(date +"%s")
-        echo a
+        echo $a
         timeLength=$[$(date +"%s")-${{env.START_SECOND}}]
         timeHour=$[$timeLength/3600]
         timeMin=$[($timeLength-$timeHour*3600)/60]
@@ -86,4 +86,4 @@ jobs:
       with:
         to: ${{ secrets.TELEGRAM_CHAT_ID }}
         token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-        args: テストメッセージ！%0D%0A時間：${{env.TIME_HOUR}}時${{env.TIME_MIN}}分
+        args: テストメッセージ！  時間：${{env.TIME_HOUR}}時${{env.TIME_MIN}}分
