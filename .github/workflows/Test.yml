@@ -1,4 +1,4 @@
-name: 编译自宅用软路由LEDE
+name: テスト用
 
 on:
   repository_dispatch:
