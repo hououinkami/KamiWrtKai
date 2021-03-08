@@ -76,6 +76,7 @@ jobs:
         echo "TIME_HOUR=$timeHour" >> $GITHUB_ENV
         echo "TIME_MIN=$timeMin" >> $GITHUB_ENV
 
+
     - name: Telegram推送
       if: env.TELEGRAM_NOTIFICATION == 'true' && !cancelled()
       uses: appleboy/telegram-action@master
