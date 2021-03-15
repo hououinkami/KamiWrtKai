@@ -122,4 +122,6 @@ jobs:
       with:
         to: ${{ secrets.TELEGRAM_CHAT_ID }}
         token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-        args: KamiWrtKaiコンパイル完了！ 時間：${{env.TIME_HOUR}}時${{env.TIME_MIN}}分
+        message: |
+          KamiWrtKaiコンパイル完了！
+          時間：${{env.TIME_HOUR}}時${{env.TIME_MIN}}分
