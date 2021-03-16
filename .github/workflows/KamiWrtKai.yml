@@ -1,4 +1,4 @@
-name: 编译自宅用软路由LEDE
+name: 编译自宅用软路由OpenWrt
 
 on:
   repository_dispatch:
@@ -24,7 +24,7 @@ env:
   REPO_URL: https://github.com/coolsnowwolf/lede
   REPO_BRANCH: master
   FEEDS_CONF: feeds.conf.default
-  CONFIG_FILE: KamiWrt.config
+  CONFIG_FILE: .config
   DIY_P1_SH: diy-before-feed.sh
   DIY_P2_SH: diy-after-feed.sh
   UPLOAD_PACKAGES_DIR: true
@@ -209,9 +209,6 @@ jobs:
       with:
         to: ${{ secrets.TELEGRAM_CHAT_ID }}
         token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-        args: KamiWrtKaiコンパイル完了！ 時間：${{env.TIME_HOUR}}時${{env.TIME_MIN}}分
-
-
-    - name: WeChat推送
-      if: env.WECHAT_NOTIFICATION == 'true' && !cancelled()
-      run: curl https://sc.ftqq.com/${{secrets.ServerChan}}.send?text=KamiWrtKai编译完成!
+        message: |
+          KamiWrtKaiコンパイル完了！
+          時間：${{env.TIME_HOUR}}時${{env.TIME_MIN}}分
