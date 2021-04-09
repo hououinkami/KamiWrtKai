@@ -44,51 +44,6 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@master
-    
-    - name: 获取当前日期
-      id: date
-      run: |
-        date=$(date +'%y%m%d')
-        echo "DATE=$date" >> $GITHUB_ENV
-        echo "FILE_DATE=$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
-        echo "START_SECOND=$(date +"%s")" >> $GITHUB_ENV
-
-    - name: 编译环境初始化
-      env:
-        DEBIAN_FRONTEND: noninteractive
-      run: |
-        sudo rm -rf /swapfile /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
-        sudo -E apt-get -qq update
-        sudo -E apt-get -qq install $(curl -fsSL git.io/depends-ubuntu-1804)
-        sudo -E apt-get -qq autoremove --purge
-        sudo -E apt-get -qq clean
-        sudo timedatectl set-timezone "$TZ"
-
-    - name: clone源码
-      run: |
-        df -hT $PWD
-        git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
-
-    - name: 加载自定义feeds
-      run: |
-        [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
-        chmod +x $DIY_P1_SH
-        cd openwrt
-        ../$DIY_P1_SH
-
-    - name: 更新feeds
-      run: cd openwrt && ./scripts/feeds update -a
-
-    - name: 安装feeds
-      run: cd openwrt && ./scripts/feeds install -a
-
-    - name: 加载自定义config
-      run: |
-        [ -e files ] && mv files openwrt/files
-        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
-        chmod +x $DIY_P2_SH
-        cd openwrt
-        ../$DIY_P2_SH
 
     - name: 通过SSH连接到Actions
       uses: P3TERX/ssh2actions@v1.0.0
@@ -96,32 +51,9 @@ jobs:
       env:
         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-
-    - name: 检查空间使用情况
-      if: (!cancelled())
-      run: df -hT
     
     - name: 移除workflow运行
       uses: GitRML/delete-workflow-runs@main
       with:
         retain_days: 1
         keep_minimum_runs: 3
-
-    - name: 计算编译时长
-      id: length
-      run: |
-        timeLength=$[$(date +"%s")-${{env.START_SECOND}}]
-        timeHour=$[$timeLength/3600]
-        timeMin=$[($timeLength-$timeHour*3600)/60]
-        echo "TIME_HOUR=$timeHour" >> $GITHUB_ENV
-        echo "TIME_MIN=$timeMin" >> $GITHUB_ENV
-
-    - name: Telegram推送
-      if: env.TELEGRAM_NOTIFICATION == 'true' && !cancelled()
-      uses: appleboy/telegram-action@master
-      with:
-        to: ${{ secrets.TELEGRAM_CHAT_ID }}
-        token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-        message: |
-          KamiWrtKaiコンパイル完了！
-          時間：${{env.TIME_HOUR}}時${{env.TIME_MIN}}分
