@@ -1,4 +1,4 @@
-name: 编译自宅用软路由OpenWrt
+name: Build OpenWrt
 
 on:
   repository_dispatch:
@@ -8,96 +8,85 @@ on:
         description: 'SSH connection to Actions'
         required: false
         default: 'false'
-  push:
-    branches:
-      - master
-    paths:
-      - 'KamiWrt.config'
   # schedule:
     # - cron: 0 0 * * 5
-  # release:
-    # types: [published]
-  # watch:
-    # types: started
-
+  watch:
+    types: started
 env:
-  REPO_URL: https://github.com/openwrt/openwrt
+  REPO_URL: https://github.com/coolsnowwolf/lede
   REPO_BRANCH: master
   FEEDS_CONF: feeds.conf.default
-  CONFIG_FILE: .config
-  DIY_P1_SH: diy-before-feed.sh
-  DIY_P2_SH: diy-after-feed.sh
-  UPLOAD_PACKAGES_DIR: true
+  CONFIG_FILE: KamiWrt.config
+  DIY_P1_SH: diy-part1.sh
+  DIY_P2_SH: diy-part2.sh
+  UPLOAD_BIN_DIR: false
   UPLOAD_FIRMWARE: true
-  UPLOAD_TO_ARTIFACTS: false
-  UPLOAD_TO_REALEASE: true
+  UPLOAD_PACKAGES: false
+  UPLOAD_RELEASE: true
+  UPLOAD_ARTIFACTS: false
   TELEGRAM_NOTIFICATION: true
-  WECHAT_NOTIFICATION: false
   DELETE_OLD_REALEASE: true
   TZ: Asia/Shanghai
 
 jobs:
   build:
     if: github.event.repository.owner.id == github.event.sender.id
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout
-      uses: actions/checkout@master
-    
-    - name: 获取当前日期
+      uses: actions/checkout@main
+
+    - name: Get Current Time
       id: date
       run: |
-        date=$(date +'%y%m%d')
-        echo "DATE=$date" >> $GITHUB_ENV
-        echo "FILE_DATE=$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
         echo "START_SECOND=$(date +"%s")" >> $GITHUB_ENV
-
-    - name: 编译环境初始化
+    
+    - name: Initialization environment
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
-        sudo rm -rf /swapfile /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
+        sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
         sudo -E apt-get -qq update
-        sudo -E apt-get -qq install $(curl -fsSL git.io/depends-ubuntu-1804)
+        sudo -E apt-get -qq install $(curl -fsSL git.io/depends-ubuntu-2004)
         sudo -E apt-get -qq autoremove --purge
         sudo -E apt-get -qq clean
         sudo timedatectl set-timezone "$TZ"
-
-    - name: clone源码
+        sudo mkdir -p /workdir
+        sudo chown $USER:$GROUPS /workdir
+    - name: Clone source code
+      working-directory: /workdir
       run: |
         df -hT $PWD
-        git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
-
-    - name: 加载自定义feeds
+        git clone $REPO_URL -b $REPO_BRANCH openwrt
+        ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
+    - name: Load custom feeds
       run: |
         [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
         chmod +x $DIY_P1_SH
         cd openwrt
-        ../$DIY_P1_SH
-
-    - name: 更新feeds
+        $GITHUB_WORKSPACE/$DIY_P1_SH
+    - name: Update feeds
       run: cd openwrt && ./scripts/feeds update -a
 
-    - name: 安装feeds
+    - name: Install feeds
       run: cd openwrt && ./scripts/feeds install -a
 
-    - name: 加载自定义config
+    - name: Load custom configuration
       run: |
         [ -e files ] && mv files openwrt/files
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
         chmod +x $DIY_P2_SH
         cd openwrt
-        ../$DIY_P2_SH
-
-    - name: 通过SSH连接到Actions
+        $GITHUB_WORKSPACE/$DIY_P2_SH
+    - name: SSH connection to Actions
       uses: P3TERX/ssh2actions@v1.0.0
       if: (github.event.inputs.ssh == 'true' && github.event.inputs.ssh  != 'false') || contains(github.event.action, 'ssh')
       env:
         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
 
-    - name: 下载package
+    - name: Download package
       id: package
       run: |
         cd openwrt
@@ -105,96 +94,105 @@ jobs:
         make download -j8
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
-
-    - name: 编译固件
+    - name: Compile the firmware
       id: compile
       run: |
         cd openwrt
         echo -e "$(nproc) thread compile"
         make -j$(nproc) || make -j1 || make -j1 V=s
         echo "::set-output name=status::success"
-
-    - name: 检查空间使用情况
+        grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
+        [ -s DEVICE_NAME ] && echo "DEVICE_NAME=$(cat DEVICE_NAME)" >> $GITHUB_ENV
+        echo "FILE_DATE=$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
+    - name: Check space usage
       if: (!cancelled())
       run: df -hT
 
-    - name: 整理固件文件夹
+    - name: Upload bin directory
+      uses: actions/upload-artifact@main
+      if: steps.compile.outputs.status == 'success' && env.UPLOAD_BIN_DIR == 'true'
+      with:
+        name: OpenWrt_bin_${{ env.DEVICE_NAME }}_${{ env.FILE_DATE }}
+        path: openwrt/bin
+
+    - name: Organize files
       id: organize
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
         mkdir openwrt/firmware
-        find openwrt/bin/targets/*/*/* -maxdepth 0  -name "*combined*"  | xargs -i mv -f {} ./openwrt/firmware/
-        # find openwrt/bin/targets/*/*/* -maxdepth 0  -name "*efi*"  | xargs -i mv -f {} ./openwrt/firmware/
-        find openwrt/bin/targets/*/*/* -maxdepth 0  -name "config*"  | xargs -i mv -f {} ./openwrt/firmware/
+        ls openwrt/bin/targets/*/*/
+        ls openwrt/bin/targets/*/*/*
+        find openwrt/bin/targets/*/*/* -maxdepth 0 -name "*combined.img.gz" | xargs -i mv -f {} ./openwrt/firmware/
+        find openwrt/bin/targets/*/*/* -maxdepth 0 -name "config*" | xargs -i mv -f {} ./openwrt/firmware/
         cd openwrt/firmware
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "::set-output name=status::success"
-
-    - name: 打包packages文件夹
+    - name: Pack packages folder
+      id: pack
+      if: steps.compile.outputs.status == 'success' && env.UPLOAD_PACKAGES == 'true'
       run: |
         cd openwrt/bin/packages/
-        tar -cvf  KamiWrt_packages.tar ./
-        mv *.tar ..
-
-    - name: 上传固件到artifact
-      if: env.UPLOAD_TO_ARTIFACTS == 'true' && !cancelled()
-      uses: actions/upload-artifact@master
+        tar -cvf KamiWrt_packages_${{ env.DEVICE_NAME }}_${{ env.FILE_DATE }}.tar ./
+        gzip KamiWrt_packages_${{ env.DEVICE_NAME }}_${{ env.FILE_DATE }}.tar
+        mv *.tar.gz ..
+        echo "::set-output name=status::success"
+    - name: Upload firmware to artifact
+      uses: actions/upload-artifact@main
+      if: env.UPLOAD_ARTIFACTS == 'true' && steps.organize.outputs.status == 'success' && !cancelled()
       with:
-        name: KamiWrt_firmware_${{ env.FILE_DATE }}
-        path: ${{ env.FIRMWARE }}/*combined*
-
-    - name: 上传packages到artifact
-      if: env.UPLOAD_PACKAGES_DIR == 'true' && env.UPLOAD_TO_ARTIFACTS == 'true' && !cancelled()
-      uses: actions/upload-artifact@master
+        name: KamiWrt_firmware_${{ env.DEVICE_NAME }}_${{ env.FILE_DATE }}
+        path: ${{ env.FIRMWARE }}
+    
+    - name: Upload packages to artifact
+      uses: actions/upload-artifact@main
+      if: env.UPLOAD_PACKAGES == 'true' && env.UPLOAD_ARTIFACTS == 'true' && steps.pack.outputs.status == 'success' && !cancelled()
       with:
-        name: KamiWrt_packages_${{ env.FILE_DATE }}
+        name: KamiWrt_packages_${{ env.DEVICE_NAME }}_${{ env.FILE_DATE }}
         path: openwrt/bin/packages
 
-    - name: 上传固件到release
-      if: env.UPLOAD_TO_REALEASE == 'true' && !cancelled()
-      uses: svenstaro/upload-release-action@v1-release
+    - name: Generate release tag
+      id: tag
+      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+      run: |
+        echo "::set-output name=release_tag::$(date +"%Y.%m.%d-%H%M")"
+        touch release.txt
+        echo "::set-output name=status::success"
+    - name: Upload firmware to release
+      uses: softprops/action-gh-release@v1
+      if: env.UPLOAD_RELEASE == 'true' && steps.tag.outputs.status == 'success' && !cancelled()
+      env:
+        GITHUB_TOKEN: ${{ secrets.KAMI_TOKEN }}
       with:
-        repo_token: ${{ secrets.SUPER_TOKEN }}
-        file: ${{env.FIRMWARE}}/*
-        asset_name: KamiWrt_firmware
-        tag: ${{env.FILE_DATE}}
-        overwrite: true
-        file_glob: true
+        tag_name: ${{ steps.tag.outputs.release_tag }}
+        body_path: release.txt
+        files: ${{ env.FIRMWARE }}/*
     
-    - name: 上传packages到release
-      if: env.UPLOAD_PACKAGES_DIR == 'true' && env.UPLOAD_TO_REALEASE == 'true' && !cancelled()
-      uses: svenstaro/upload-release-action@v1-release
+    - name: Upload packages to release
+      uses: softprops/action-gh-release@v1
+      if: env.UPLOAD_PACKAGES == 'true' && env.UPLOAD_RELEASE == 'true' && steps.tag.outputs.status == 'success' && !cancelled()
+      env:
+        GITHUB_TOKEN: ${{ secrets.KAMI_TOKEN }}
       with:
-        repo_token: ${{ secrets.SUPER_TOKEN }}
-        file: openwrt/bin/KamiWrt_packages.tar
-        asset_name: KamiWrt_packages
-        tag: ${{env.FILE_DATE}}
-        overwrite: true
-        file_glob: true
+        tag_name: ${{ steps.tag.outputs.release_tag }}
+        body_path: release.txt
+        files: openwrt/bin/KamiWrt_packages_${{ env.DEVICE_NAME }}_${{ env.FILE_DATE }}.tar.gz
 
-    - name: 删除旧Artifacts
-      uses: c-hive/gha-remove-artifacts@v1
-      with:
-        age: '1 month'
-        skip-recent: 1
-        skip-tags: true
-    
-    - name: 移除workflow运行
+    - name: Delete workflow runs
       uses: GitRML/delete-workflow-runs@main
       with:
         retain_days: 1
-        keep_minimum_runs: 3
+        keep_minimum_runs: 11
 
-    - name: 移除旧Releases
+    - name: Remove old Releases
       uses: dev-drprasad/delete-older-releases@v0.1.0
-      if: env.UPLOAD_TO_REALEASE == 'true' && env.DELETE_OLD_REALEASE == 'true' && !cancelled()
+      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       with:
         keep_latest: 10
         delete_tags: true
       env:
-        GITHUB_TOKEN: ${{ secrets.SUPER_TOKEN }}
-
-    - name: 计算编译时长
+        GITHUB_TOKEN: ${{ secrets.KAMI_TOKEN }}
+    
+    - name: Get compile time
       id: length
       run: |
         timeLength=$[$(date +"%s")-${{env.START_SECOND}}]
@@ -202,13 +200,23 @@ jobs:
         timeMin=$[($timeLength-$timeHour*3600)/60]
         echo "TIME_HOUR=$timeHour" >> $GITHUB_ENV
         echo "TIME_MIN=$timeMin" >> $GITHUB_ENV
-
-    - name: Telegram推送
-      if: env.TELEGRAM_NOTIFICATION == 'true' && !cancelled()
+    - name: Telegram notification
+      if: steps.compile.outputs.status == 'success' && env.TELEGRAM_NOTIFICATION == 'true' && !cancelled()
       uses: appleboy/telegram-action@master
       with:
         to: ${{ secrets.TELEGRAM_CHAT_ID }}
         token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        format: html
         message: |
-          KamiWrtKaiコンパイル完了！
+          <b>✅ KamiWrtKaiコンパイル完了！</b>
           時間：${{env.TIME_HOUR}}時${{env.TIME_MIN}}分
+    - name: Telegram notification when fail
+      if: steps.compile.outputs.status != 'success' && env.TELEGRAM_NOTIFICATION == 'true' && !cancelled()
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_CHAT_ID }}
+        token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        format: html
+        message: |
+          <b>❌ KamiWrtコンパイルに失敗！</b>
+          リンク：${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}
