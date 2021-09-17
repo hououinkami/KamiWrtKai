@@ -26,7 +26,7 @@ env:
   FEEDS_CONF: feeds.conf.default
   CONFIG_FILE: ipk.config
   DIY_P1_SH: diy-ipk.sh
-  DIY_P2_SH: diy-after-feed.sh
+  DIY_P2_SH: diy-part2.sh
   UPLOAD_PACKAGES_DIR: true
   UPLOAD_FIRMWARE: true
   UPLOAD_TO_ARTIFACTS: false
