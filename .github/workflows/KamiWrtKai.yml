@@ -21,9 +21,9 @@ env:
   DIY_P2_SH: diy-part2.sh
   UPLOAD_BIN_DIR: false
   UPLOAD_FIRMWARE: true
-  UPLOAD_PACKAGES: false
-  UPLOAD_RELEASE: true
-  UPLOAD_ARTIFACTS: false
+  UPLOAD_PACKAGES: true
+  UPLOAD_RELEASE: false
+  UPLOAD_ARTIFACTS: true
   TELEGRAM_NOTIFICATION: true
   DELETE_OLD_REALEASE: true
   TZ: Asia/Shanghai

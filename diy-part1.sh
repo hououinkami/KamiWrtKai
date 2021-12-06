@@ -113,6 +113,9 @@ sed -i "/helloworld/d" "feeds.conf.default"
 echo "src-git helloworld https://github.com/fw876/helloworld.git" >> "feeds.conf.default"
 cd package
 
+# KamiWrtBot
+git clone https://github.com/hououinkami/KamiWrtBot.git
+
 #
 # 自定义主题
 #
