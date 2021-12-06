@@ -165,7 +165,7 @@ jobs:
       uses: svenstaro/upload-release-action@v1-release
       with:
         repo_token: ${{ secrets.SUPER_TOKEN }}
-        file: openwrt/bin/packages/x86_64/base/*.ipk
+        file: openwrt/bin/packages/x86_64/base/*serverchan*.ipk
         asset_name: luci-app-serverchan
         tag: ${{env.DATE}}
         overwrite: true
