@@ -42,6 +42,7 @@ sed -i 's/\$ip_name 连接了你的路由器/✅ \$ip_name がルーターに接
 sed -i 's/新设备连接/デバイス接続/g' serverchan
 sed -i '700,800 s/\${ip_name} \${title}/✅ \${ip_name} \${title}/' serverchan
 sed -i 's/客户端名/設備/g' serverchan
+sed -i 's/主机名/設備/g' serverchan
 sed -i 's/客户端IP： /IP：     /g' serverchan
 sed -i 's/客户端MAC/MAC/g' serverchan
 sed -i 's/网络接口/インターフェース/g' serverchan
@@ -79,11 +80,12 @@ sed -i 's/系统运行状态/システム稼働状態/g' serverchan
 sed -i 's/平均负载/平均負荷/g' serverchan
 sed -i 's/CPU占用/CPU使用/g' serverchan
 sed -i 's/内存占用/メモリ使用/g' serverchan
+sed -i 's/全球互联/グローバル接続/g' serverchan
 sed -i 's/设备温度/設備温度/g' serverchan
 sed -i 's/WAN 口信息/WAN情報/g' serverchan
-sed -i 's/接口ip/インターフェースIP/g' serverchan
-sed -i 's/外网ip/外部ネットワークIP/g' serverchan
-sed -i 's/外网 ip 与接口 ip 不一致，你的 ip 不是公网 ip/IPはパブリックネットワークIPではありません。/g' serverchan
+sed -i 's/接口 IPv4/インターフェースIP/g' serverchan
+sed -i 's/外网 IPv4/外部ネットワークIP/g' serverchan
+sed -i 's/外网 IP 与接口 IP 不一致，你的 IP 可能不是公网 IP/IPはパブリックネットワークIPではありません。/g' serverchan
 sed -i 's/当前无在线设备/接続しているデバイスなし/g' serverchan
 sed -i 's/在线设备/接続しているデバイス/g' serverchan
 sed -i 's/总计流量/トラフィック/g' serverchan
@@ -115,6 +117,9 @@ cd package
 
 # KamiWrtBot
 git clone https://github.com/hououinkami/KamiWrtBot.git
+
+# Adguard Home
+git clone https://github.com/rufengsuixing/luci-app-adguardhome.git
 
 #
 # 自定义主题
