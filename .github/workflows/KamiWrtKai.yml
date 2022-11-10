@@ -21,9 +21,9 @@ env:
   DIY_P2_SH: diy-part2.sh
   UPLOAD_BIN_DIR: false
   UPLOAD_FIRMWARE: true
-  UPLOAD_PACKAGES: true
-  UPLOAD_RELEASE: false
-  UPLOAD_ARTIFACTS: true
+  UPLOAD_PACKAGES: false
+  UPLOAD_RELEASE: true
+  UPLOAD_ARTIFACTS: false
   TELEGRAM_NOTIFICATION: true
   DELETE_OLD_REALEASE: true
   TZ: Asia/Shanghai
@@ -54,21 +54,18 @@ jobs:
         sudo timedatectl set-timezone "$TZ"
         sudo mkdir -p /workdir
         sudo chown $USER:$GROUPS /workdir
-
     - name: Clone source code
       working-directory: /workdir
       run: |
         df -hT $PWD
         git clone $REPO_URL -b $REPO_BRANCH openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
-
     - name: Load custom feeds
       run: |
         [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
         chmod +x $DIY_P1_SH
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P1_SH
-
     - name: Update feeds
       run: cd openwrt && ./scripts/feeds update -a
 
@@ -82,7 +79,6 @@ jobs:
         chmod +x $DIY_P2_SH
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P2_SH
-
     - name: SSH connection to Actions
       uses: P3TERX/ssh2actions@v1.0.0
       if: (github.event.inputs.ssh == 'true' && github.event.inputs.ssh  != 'false') || contains(github.event.action, 'ssh')
@@ -98,7 +94,6 @@ jobs:
         make download -j8
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
-
     - name: Compile the firmware
       id: compile
       run: |
@@ -109,7 +104,6 @@ jobs:
         grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
         [ -s DEVICE_NAME ] && echo "DEVICE_NAME=$(cat DEVICE_NAME)" >> $GITHUB_ENV
         echo "FILE_DATE=$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
-
     - name: Check space usage
       if: (!cancelled())
       run: df -hT
@@ -133,7 +127,6 @@ jobs:
         cd openwrt/firmware
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "::set-output name=status::success"
-
     - name: Pack packages folder
       id: pack
       if: steps.compile.outputs.status == 'success' && env.UPLOAD_PACKAGES == 'true'
@@ -143,7 +136,6 @@ jobs:
         gzip KamiWrt_packages_${{ env.DEVICE_NAME }}_${{ env.FILE_DATE }}.tar
         mv *.tar.gz ..
         echo "::set-output name=status::success"
-
     - name: Upload firmware to artifact
       uses: actions/upload-artifact@main
       if: env.UPLOAD_ARTIFACTS == 'true' && steps.organize.outputs.status == 'success' && !cancelled()
@@ -162,10 +154,9 @@ jobs:
       id: tag
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       run: |
-        echo "::set-output name=release_tag::$(date +"%Y.%m.%d-%H%M")"
+        echo "::set-output name=release_tag::Main_$(date +"%Y.%m.%d-%H%M")"
         touch release.txt
         echo "::set-output name=status::success"
-
     - name: Upload firmware to release
       uses: softprops/action-gh-release@v1
       if: env.UPLOAD_RELEASE == 'true' && steps.tag.outputs.status == 'success' && !cancelled()
@@ -209,7 +200,6 @@ jobs:
         timeMin=$[($timeLength-$timeHour*3600)/60]
         echo "TIME_HOUR=$timeHour" >> $GITHUB_ENV
         echo "TIME_MIN=$timeMin" >> $GITHUB_ENV
-
     - name: Telegram notification
       if: steps.compile.outputs.status == 'success' && env.TELEGRAM_NOTIFICATION == 'true' && !cancelled()
       uses: appleboy/telegram-action@master
@@ -220,7 +210,6 @@ jobs:
         message: |
           <b>✅ KamiWrtコンパイル完了！</b>
           時間：${{env.TIME_HOUR}}時${{env.TIME_MIN}}分
-
     - name: Telegram notification when fail
       if: steps.compile.outputs.status != 'success' && env.TELEGRAM_NOTIFICATION == 'true' && !cancelled()
       uses: appleboy/telegram-action@master
@@ -230,4 +219,3 @@ jobs:
         format: html
         message: |
           <b>❌ KamiWrtコンパイルに失敗！</b>
-          リンク：${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}
