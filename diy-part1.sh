@@ -1,20 +1,44 @@
+sed -i "1isrc-git xiangfeidexiaohuo https://github.com/xiangfeidexiaohuo/openwrt-packages" feeds.conf.default
+
 cd package
+
 #
 # 自定义插件
 #
 # > 编译OpenClash
 git clone -b master https://github.com/vernesong/OpenClash.git
-# >> 添加Clash dev内核
+
 mkdir -p base-files/files/etc/openclash/core
 cd base-files/files/etc/openclash/core
-wget https://github.com/vernesong/OpenClash/releases/download/Clash/clash-linux-amd64.tar.gz
-tar -zxvf clash-linux-amd64.tar.gz && rm -rf clash-linux-amd64.tar.gz
-chmod 0755 clash
-# >> 添加Clash tun内核
-find ../../../../../OpenClash/core-lateset/premium -name "clash-linux-amd64*"  | xargs -i mv -f {} ./
+# >> 添加Clash Tun内核
+find ../../../../../OpenClash/core-lateset/premium -name "clash-linux-amd64-20*"  | xargs -i mv -f {} ./
 gzip -df *.gz
 mv clash-linux-amd64* clash_tun
 chmod 0755 clash_tun
+# >> 添加Clash Meta内核
+find ../../../../../OpenClash/core-lateset/meta -name "clash-linux-amd64.tar.gz"  | xargs -i mv -f {} ./
+tar -zxvf clash-linux-amd64.tar.gz && rm -rf clash-linux-amd64.tar.gz
+mv clash clash_meta
+chmod 0755 clash_meta
+# >> 添加Clash Dev内核
+wget https://github.com/vernesong/OpenClash/releases/download/Clash/clash-linux-amd64.tar.gz
+tar -zxvf clash-linux-amd64.tar.gz && rm -rf clash-linux-amd64.tar.gz
+chmod 0755 clash
+
+cd -
+
+# >> 更改中控台为meta版本
+cd OpenClash/luci-app-openclash/root/usr/share/openclash/ui
+wget -O yacd.zip https://codeload.github.com/MetaCubeX/Yacd-meta/zip/refs/heads/gh-pages
+wget -O dash.zip https://codeload.github.com/MetaCubeX/Razord-meta/zip/refs/heads/gh-pages
+rm -rf yacd
+rm -rf dashboard
+unzip yacd.zip
+mv *meta* yacd
+unzip dash.zip
+mv *meta* dashboard
+rm -rf *.zip
+
 cd -
 
 # 编译OpenAppFilter
@@ -119,7 +143,14 @@ cd package
 git clone https://github.com/hououinkami/KamiWrtBot.git
 
 # Adguard Home
-git clone https://github.com/rufengsuixing/luci-app-adguardhome.git
+# git clone https://github.com/rufengsuixing/luci-app-adguardhome.git
+
+# 编译Quickstart和iStore
+# git clone --depth 1 https://github.com/linkease/nas-packages && mv -n nas-packages/{network/services/*,multimedia/*} ./; rm -rf nas-packages
+# git clone --depth 1 https://github.com/linkease/nas-packages-luci && mv -n nas-packages-luci/luci/* ./; rm -rf nas-packages-luci
+# git clone --depth 1 https://github.com/linkease/istore && mv -n istore/luci/* ./; rm -rf istore
+# git clone --depth 1 https://github.com/linkease/openwrt-app-actions
+# git clone https://github.com/xiangfeidexiaohuo/op-ipkg.git
 
 #
 # 自定义主题
@@ -130,7 +161,16 @@ cd lean
 rm -rf luci-theme-argon
 cd -
 git clone -b 18.06 https://github.com/jerrykuku/luci-theme-argon.git
+git clone https://github.com/jerrykuku/luci-app-argon-config.git
+
 # 更改默认主题
 sed -i '/uci commit luci/i\uci set luci.main.mediaurlbase=/luci-static/argon' lean/default-settings/files/zzz-default-settings
+
+# 更改主机名
+sed -i "s/hostname='.*'/hostname='Kami-Router'/g" base-files/files/bin/config_generate
+
+# 加入自定义信息
+sed -i "s/DISTRIB_REVISION='*.*'/DISTRIB_REVISION='$(date +%Y%m%d) Compiled by Kami'/g" lean/default-settings/files/zzz-default-settings
+
 #
 cd ./
