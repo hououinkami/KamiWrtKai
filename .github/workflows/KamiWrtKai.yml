@@ -16,21 +16,20 @@ env:
   REPO_URL: https://github.com/coolsnowwolf/lede
   REPO_BRANCH: master
   FEEDS_CONF: feeds.conf.default
-  CONFIG_FILE: t.config
+  CONFIG_FILE: KamiWrt.config
   DIY_P1_SH: diy-part1.sh
   DIY_P2_SH: diy-part2.sh
   UPLOAD_BIN_DIR: false
   UPLOAD_FIRMWARE: true
   UPLOAD_PACKAGES: false
-  UPLOAD_RELEASE: true
-  UPLOAD_ARTIFACTS: false
+  UPLOAD_RELEASE: false
+  UPLOAD_ARTIFACTS: true
   TELEGRAM_NOTIFICATION: true
   DELETE_OLD_REALEASE: true
   TZ: Asia/Shanghai
 
 jobs:
   build:
-    if: github.event.repository.owner.id == github.event.sender.id
     runs-on: ubuntu-20.04
 
     steps:
@@ -46,7 +45,7 @@ jobs:
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
-        sudo timedatectl set-timezone "Asia/Shanghai" 
+        sudo timedatectl set-timezone "$TZ"
         sudo -E swapoff -a
         sudo -E rm -f /swapfile
         sudo -E docker image prune -a -f
@@ -61,36 +60,32 @@ jobs:
         sudo -E apt-get clean
         git config --global user.name 'GitHub Actions' && git config --global user.email 'noreply@github.com'
         df -h
-        sudo mkdir -p /workdir
-        sudo chown $USER:$GROUPS /workdir
 
     - name: Clone source code
-      working-directory: /workdir
       run: |
-        df -hT $PWD
-        git clone $REPO_URL -b $REPO_BRANCH openwrt
-        ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
+        git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
 
-    - name: Load custom feeds
-      run: |
         [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
-        chmod +x $DIY_P1_SH
+
         cd openwrt
-        $GITHUB_WORKSPACE/$DIY_P1_SH
+        cp -f ../$DIY_P1_SH ./
+        chmod +x ./$DIY_P1_SH && ./$DIY_P1_SH
 
-    - name: Update feeds
-      run: cd openwrt && ./scripts/feeds update -a
+    - name: Update & Install feeds
+      working-directory: ./openwrt
+      run: |
+        ./scripts/feeds update -a
 
-    - name: Install feeds
-      run: cd openwrt && ./scripts/feeds install -a
+        ./scripts/feeds install -a
 
-    - name: Load custom configuration
+        cp -f ../$DIY_P2_SH ./        
+        chmod +x ./$DIY_P2_SH && ./$DIY_P2_SH
+
+    - name: Configuration Customization
       run: |
         [ -e files ] && mv files openwrt/files
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
-        chmod +x $DIY_P2_SH
-        cd openwrt
-        $GITHUB_WORKSPACE/$DIY_P2_SH
+        cd openwrt && make defconfig
 
     - name: SSH connection to Actions
       uses: P3TERX/ssh2actions@v1.0.0
@@ -100,18 +95,15 @@ jobs:
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
 
     - name: Download package
-      id: package
+      working-directory: ./openwrt
       run: |
-        cd openwrt
-        make defconfig
-        make download -j8
+        make download -j$(nproc)
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
 
-    - name: Compile the firmware
-      id: compile
+    - name: Compile firmware
+      working-directory: ./openwrt
       run: |
-        cd openwrt
         echo -e "$(nproc) thread compile"
         make -j$(nproc) || make -j1 || make -j1 V=s
         echo "::set-output name=status::success"
@@ -131,15 +123,18 @@ jobs:
         path: openwrt/bin
 
     - name: Organize files
-      id: organize
+      working-directory: ./openwrt
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
-        mkdir openwrt/firmware
-        ls openwrt/bin/targets/*/*/
-        ls openwrt/bin/targets/*/*/*
-        find openwrt/bin/targets/*/*/* -maxdepth 0 -name "*combined.img.gz" | xargs -i mv -f {} ./openwrt/firmware/
-        find openwrt/bin/targets/*/*/* -maxdepth 0 -name "config*" | xargs -i mv -f {} ./openwrt/firmware/
-        cd openwrt/firmware
+        rm -rf ./firmware
+        mkdir -p ./firmware
+        ls ./bin/targets/*/*/
+        ls ./bin/targets/*/*/*
+        rom=./bin/targets/x86/64/openwrt-x86-64-generic-squashfs-combined.img.gz
+        config=./.config
+        cp -a $rom ./firmware/KamiWrt-${{ env.DEVICE_NAME }}-${{ env.FILE_DATE }}.img.gz
+        cp -a $config ./firmware/${{ env.DEVICE_NAME }}-${{ env.FILE_DATE }}.config
+        cd ./firmware
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "::set-output name=status::success"
 
@@ -167,12 +162,14 @@ jobs:
         name: KamiWrt_packages_${{ env.DEVICE_NAME }}_${{ env.FILE_DATE }}
         path: openwrt/bin/packages
 
-    - name: Generate release tag
-      id: tag
+    - name: Generate Tag & Release Name
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       run: |
-        echo "::set-output name=release_tag::Main_$(date +"%Y.%m.%d-%H%M")"
-        touch release.txt
+        time=$(date +"%Y.%m.%d-%H%M")
+        release_tag="$time"
+        release_name="KamiWrt-${{ env.DEVICE_NAME }}-${{ env.FILE_DATE }}"
+        echo "release_name=$release_name" >> $GITHUB_OUTPUT
+        echo "release_tag=$release_tag" >> $GITHUB_OUTPUT  
         echo "::set-output name=status::success"
 
     - name: Upload firmware to release
