@@ -1,6 +1,10 @@
 sed -i "1isrc-git xiangfeidexiaohuo https://github.com/xiangfeidexiaohuo/openwrt-packages" feeds.conf.default
 sed -i "2isrc-git ipkg https://github.com/xiangfeidexiaohuo/op-ipkg\n" feeds.conf.default
 
+# HelloWorld
+sed -i "/helloworld/d" "feeds.conf.default"
+echo "src-git helloworld https://github.com/fw876/helloworld.git" >> "feeds.conf.default"
+
 cd package
 
 #
@@ -41,6 +45,12 @@ mv *meta* dashboard
 rm -rf *.zip
 
 cd -
+
+# >> 归类至VPN菜单
+sed -i 's/services/vpn/g' OpenClash/luci-app-openclash/luasrc/controller/*.lua
+sed -i 's/services/vpn/g' OpenClash/luci-app-openclash/luasrc/*.lua
+sed -i 's/services/vpn/g' OpenClash/luci-app-openclash/luasrc/model/cbi/openclash/*.lua
+sed -i 's/services/vpn/g' OpenClash/luci-app-openclash/luasrc/view/openclash/*.htm
 
 # 编译OpenAppFilter
 git clone https://github.com/destan19/OpenAppFilter.git && mv -f OpenAppFilter/* ./
@@ -134,12 +144,6 @@ sed -i 's/登录方式/方法/g' serverchan
 
 cd -
 
-# HelloWorld
-cd ..
-sed -i "/helloworld/d" "feeds.conf.default"
-echo "src-git helloworld https://github.com/fw876/helloworld.git" >> "feeds.conf.default"
-cd package
-
 # KamiWrtBot
 git clone https://github.com/hououinkami/KamiWrtBot.git
 
@@ -173,16 +177,6 @@ sed -i "s/hostname='.*'/hostname='Kami-Router'/g" base-files/files/bin/config_ge
 # 加入自定义信息
 sed -i "s/DISTRIB_DESCRIPTION='*.*'/DISTRIB_DESCRIPTION='KamiWrt-$(date +%Y%m%d)'/g" lean/default-settings/files/zzz-default-settings
 sed -i "s/DISTRIB_REVISION='*.*'/DISTRIB_REVISION='$(date +%Y%m%d) Compiled by Kami'/g" lean/default-settings/files/zzz-default-settings
-
-# 科学上网归类至VPN菜单
-sed -i 's/services/vpn/g' OpenClash/luci-app-openclash/luasrc/controller/*.lua
-sed -i 's/services/vpn/g' OpenClash/luci-app-openclash/luasrc/*.lua
-sed -i 's/services/vpn/g' OpenClash/luci-app-openclash/luasrc/model/cbi/openclash/*.lua
-sed -i 's/services/vpn/g' OpenClash/luci-app-openclash/luasrc/view/openclash/*.htm
-
-sed -i 's/services/vpn/g' feeds/helloworld/luci-app-ssr-plus/luasrc/controller/*.lua
-sed -i 's/services/vpn/g' feeds/helloworld/luci-app-ssr-plus/luasrc/model/cbi/shadowsocksr/*.lua
-sed -i 's/services/vpn/g' feeds/helloworld/luci-app-ssr-plus/luasrc/view/shadowsocksr/*.htm
 
 #
 cd ./

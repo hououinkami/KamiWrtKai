@@ -21,11 +21,11 @@ env:
   DIY_P2_SH: diy-part2.sh
   UPLOAD_BIN_DIR: false
   UPLOAD_FIRMWARE: true
-  UPLOAD_PACKAGES: false
+  UPLOAD_PACKAGES: true
   UPLOAD_RELEASE: false
   UPLOAD_ARTIFACTS: true
   TELEGRAM_NOTIFICATION: true
-  DELETE_OLD_REALEASE: true
+  DELETE_OLD_REALEASE: false
   TZ: Asia/Shanghai
 
 jobs:
@@ -102,6 +102,7 @@ jobs:
         find dl -size -1024c -exec rm -f {} \;
 
     - name: Compile firmware
+      id: compile
       working-directory: ./openwrt
       run: |
         echo -e "$(nproc) thread compile"
@@ -136,61 +137,55 @@ jobs:
         cp -a $config ./firmware/${{ env.DEVICE_NAME }}-${{ env.FILE_DATE }}.config
         cd ./firmware
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
-        echo "::set-output name=status::success"
 
     - name: Pack packages folder
-      id: pack
       if: steps.compile.outputs.status == 'success' && env.UPLOAD_PACKAGES == 'true'
       run: |
         cd openwrt/bin/packages/
-        tar -cvf KamiWrt_packages_${{ env.DEVICE_NAME }}_${{ env.FILE_DATE }}.tar ./
-        gzip KamiWrt_packages_${{ env.DEVICE_NAME }}_${{ env.FILE_DATE }}.tar
+        tar -cvf KamiWrt_Packages_${{ env.FILE_DATE }}.tar ./
+        gzip KamiWrt_Packages_${{ env.FILE_DATE }}.tar
         mv *.tar.gz ..
-        echo "::set-output name=status::success"
 
     - name: Upload firmware to artifact
       uses: actions/upload-artifact@main
-      if: env.UPLOAD_ARTIFACTS == 'true' && steps.organize.outputs.status == 'success' && !cancelled()
+      if: env.UPLOAD_ARTIFACTS == 'true' && !cancelled()
       with:
         name: KamiWrt_firmware_${{ env.DEVICE_NAME }}_${{ env.FILE_DATE }}
         path: ${{ env.FIRMWARE }}
     
     - name: Upload packages to artifact
       uses: actions/upload-artifact@main
-      if: env.UPLOAD_PACKAGES == 'true' && env.UPLOAD_ARTIFACTS == 'true' && steps.pack.outputs.status == 'success' && !cancelled()
+      if: env.UPLOAD_PACKAGES == 'true' && env.UPLOAD_ARTIFACTS == 'true' && !cancelled()
       with:
-        name: KamiWrt_packages_${{ env.DEVICE_NAME }}_${{ env.FILE_DATE }}
+        name: KamiWrt_Packages_${{ env.DEVICE_NAME }}_${{ env.FILE_DATE }}
         path: openwrt/bin/packages
 
     - name: Generate Tag & Release Name
+      id: release
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       run: |
-        time=$(date +"%Y.%m.%d-%H%M")
-        release_tag="$time"
-        release_name="KamiWrt-${{ env.DEVICE_NAME }}-${{ env.FILE_DATE }}"
+        release_name="KamiWrt-${{ env.FILE_DATE }}"
+        release_tag="${{ env.FILE_DATE }}"
         echo "release_name=$release_name" >> $GITHUB_OUTPUT
         echo "release_tag=$release_tag" >> $GITHUB_OUTPUT  
-        echo "::set-output name=status::success"
 
     - name: Upload firmware to release
-      uses: softprops/action-gh-release@v1
-      if: env.UPLOAD_RELEASE == 'true' && steps.tag.outputs.status == 'success' && !cancelled()
-      env:
-        GITHUB_TOKEN: ${{ secrets.KAMI_TOKEN }}
+      uses: ncipollo/release-action@v1
+      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       with:
-        tag_name: ${{ steps.tag.outputs.release_tag }}
-        body_path: release.txt
-        files: ${{ env.FIRMWARE }}/*
+        artifacts: ${{ env.FIRMWARE }}/*
+        name: ${{ steps.release.outputs.release_name }}
+        tag: ${{ steps.release.outputs.release_tag }}
+        token: ${{ secrets.KAMI_TOKEN }}
     
     - name: Upload packages to release
-      uses: softprops/action-gh-release@v1
-      if: env.UPLOAD_PACKAGES == 'true' && env.UPLOAD_RELEASE == 'true' && steps.tag.outputs.status == 'success' && !cancelled()
-      env:
-        GITHUB_TOKEN: ${{ secrets.KAMI_TOKEN }}
+      uses: ncipollo/release-action@v1
+      if: env.UPLOAD_RELEASE == 'true' && env.UPLOAD_PACKAGES == 'true' && !cancelled()
       with:
-        tag_name: ${{ steps.tag.outputs.release_tag }}
-        body_path: release.txt
-        files: openwrt/bin/KamiWrt_packages_${{ env.DEVICE_NAME }}_${{ env.FILE_DATE }}.tar.gz
+        artifacts: openwrt/bin/KamiWrt_Packages_${{ env.FILE_DATE }}.tar.gz
+        name: KamiWrt_Packages_${{ env.FILE_DATE }}
+        tag: ${{ steps.release.outputs.release_tag }}
+        token: ${{ secrets.KAMI_TOKEN }}
 
     - name: Delete workflow runs
       uses: GitRML/delete-workflow-runs@main
