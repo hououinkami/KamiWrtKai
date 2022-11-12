@@ -1,10 +1,6 @@
 sed -i "1isrc-git xiangfeidexiaohuo https://github.com/xiangfeidexiaohuo/openwrt-packages" feeds.conf.default
 sed -i "2isrc-git ipkg https://github.com/xiangfeidexiaohuo/op-ipkg\n" feeds.conf.default
 
-# HelloWorld
-sed -i "/helloworld/d" "feeds.conf.default"
-echo "src-git helloworld https://github.com/fw876/helloworld.git" >> "feeds.conf.default"
-
 cd package
 
 #
@@ -146,6 +142,15 @@ cd -
 
 # KamiWrtBot
 git clone https://github.com/hououinkami/KamiWrtBot.git
+
+# HelloWorld
+rm -rf helloworld
+git clone --depth=1 https://github.com/fw876/helloworld.git
+
+sed -i 's/services/vpn/g' helloworld/luci-app-ssr-plus/luasrc/controller/*.lua
+sed -i 's/services/vpn/g' helloworld/luci-app-ssr-plus/luasrc/model/cbi/shadowsocksr/*.lua
+sed -i 's/services/vpn/g' helloworld/luci-app-ssr-plus/luasrc/view/shadowsocksr/*.htm
+
 
 # Adguard Home
 # git clone https://github.com/rufengsuixing/luci-app-adguardhome.git
