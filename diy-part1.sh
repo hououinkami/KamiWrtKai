@@ -181,7 +181,7 @@ sed -i "s/hostname='.*'/hostname='Kami-Router'/g" base-files/files/bin/config_ge
 
 # 加入自定义信息
 sed -i "s/DISTRIB_DESCRIPTION='*.*'/DISTRIB_DESCRIPTION='KamiWrt-$(date +%Y%m%d)'/g" lean/default-settings/files/zzz-default-settings
-sed -i "s/DISTRIB_REVISION='*.*'/DISTRIB_REVISION='$(date +%Y%m%d) Compiled by Kami'/g" lean/default-settings/files/zzz-default-settings
+sed -i "s/DISTRIB_REVISION='*.*'/DISTRIB_REVISION='Compiled by Kami'/g" lean/default-settings/files/zzz-default-settings
 
 #
 cd ./

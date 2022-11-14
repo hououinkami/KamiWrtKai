@@ -133,8 +133,8 @@ jobs:
         ls ./bin/targets/*/*/*
         rom=./bin/targets/x86/64/openwrt-x86-64-generic-squashfs-combined.img.gz
         config=./.config
-        cp -a $rom ./firmware/KamiWrt-${{ env.DEVICE_NAME }}-${{ env.FILE_DATE }}.img.gz
-        cp -a $config ./firmware/${{ env.DEVICE_NAME }}-${{ env.FILE_DATE }}.config
+        cp -a $rom ./firmware/KamiWrt-${{ env.FILE_DATE }}.img.gz
+        cp -a $config ./firmware/${{ env.FILE_DATE }}.config
         cd ./firmware
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
 
@@ -150,14 +150,14 @@ jobs:
       uses: actions/upload-artifact@main
       if: env.UPLOAD_ARTIFACTS == 'true' && !cancelled()
       with:
-        name: KamiWrt_firmware_${{ env.DEVICE_NAME }}_${{ env.FILE_DATE }}
+        name: KamiWrt_firmware_${{ env.FILE_DATE }}
         path: ${{ env.FIRMWARE }}
     
     - name: Upload packages to artifact
       uses: actions/upload-artifact@main
       if: env.UPLOAD_PACKAGES == 'true' && env.UPLOAD_ARTIFACTS == 'true' && !cancelled()
       with:
-        name: KamiWrt_Packages_${{ env.DEVICE_NAME }}_${{ env.FILE_DATE }}
+        name: KamiWrt_Packages_${{ env.FILE_DATE }}
         path: openwrt/bin/packages
 
     - name: Generate Tag & Release Name
@@ -212,22 +212,12 @@ jobs:
         echo "TIME_MIN=$timeMin" >> $GITHUB_ENV
 
     - name: Telegram notification
-      if: steps.compile.outputs.status == 'success' && env.TELEGRAM_NOTIFICATION == 'true' && !cancelled()
-      uses: appleboy/telegram-action@master
-      with:
-        to: ${{ secrets.TELEGRAM_CHAT_ID }}
-        token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-        format: html
-        message: |
-          <b>✅ KamiWrtコンパイル完了！</b>
-          時間：${{env.TIME_HOUR}}時${{env.TIME_MIN}}分
+      if: steps.compile.outputs.status == 'success' && env.TELEGRAM_NOTIFICATION == 'true' && !cancelled() 
+      run: |
+        curl -s "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}&text=<b>✅ KamiWrtコンパイル完了！</b>
+        時間：${{env.TIME_HOUR}}時${{env.TIME_MIN}}分&parse_mode=HTML"
 
     - name: Telegram notification when fail
       if: steps.compile.outputs.status != 'success' && env.TELEGRAM_NOTIFICATION == 'true' && !cancelled()
-      uses: appleboy/telegram-action@master
-      with:
-        to: ${{ secrets.TELEGRAM_CHAT_ID }}
-        token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-        format: html
-        message: |
-          <b>❌ KamiWrtコンパイルに失敗！</b>
+      run: |
+        curl -s "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}&text=<b>❌ KamiWrtコンパイルに失敗！</b>&parse_mode=HTML"
