@@ -21,11 +21,11 @@ env:
   DIY_P2_SH: diy-part2.sh
   UPLOAD_BIN_DIR: false
   UPLOAD_FIRMWARE: true
-  UPLOAD_PACKAGES: true
-  UPLOAD_RELEASE: false
-  UPLOAD_ARTIFACTS: true
+  UPLOAD_PACKAGES: false
+  UPLOAD_RELEASE: true
+  UPLOAD_ARTIFACTS: false
   TELEGRAM_NOTIFICATION: true
-  DELETE_OLD_REALEASE: false
+  DELETE_OLD_REALEASE: true
   TZ: Asia/Shanghai
 
 jobs:
@@ -107,7 +107,7 @@ jobs:
       run: |
         echo -e "$(nproc) thread compile"
         make -j$(nproc) || make -j1 || make -j1 V=s
-        echo "::set-output name=status::success"
+        echo "status="success"" >> $GITHUB_OUTPUT
         grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
         [ -s DEVICE_NAME ] && echo "DEVICE_NAME=$(cat DEVICE_NAME)" >> $GITHUB_ENV
         echo "FILE_DATE=$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
@@ -118,7 +118,7 @@ jobs:
 
     - name: Upload bin directory
       uses: actions/upload-artifact@main
-      if: steps.compile.outputs.status == 'success' && env.UPLOAD_BIN_DIR == 'true'
+      if: steps.compile.outputs.status == 'success' && env.UPLOAD_BIN_DIR == 'true' && !cancelled()
       with:
         name: OpenWrt_bin_${{ env.DEVICE_NAME }}_${{ env.FILE_DATE }}
         path: openwrt/bin
@@ -139,7 +139,7 @@ jobs:
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
 
     - name: Pack packages folder
-      if: steps.compile.outputs.status == 'success' && env.UPLOAD_PACKAGES == 'true'
+      if: steps.compile.outputs.status == 'success' && env.UPLOAD_PACKAGES == 'true' && !cancelled()
       run: |
         cd openwrt/bin/packages/
         tar -cvf KamiWrt_Packages_${{ env.FILE_DATE }}.tar ./
@@ -188,6 +188,7 @@ jobs:
         token: ${{ secrets.KAMI_TOKEN }}
 
     - name: Delete workflow runs
+      if: (!cancelled())
       uses: GitRML/delete-workflow-runs@main
       with:
         retain_days: 1
@@ -203,6 +204,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.KAMI_TOKEN }}
     
     - name: Get compile time
+      if: (!cancelled())
       id: length
       run: |
         timeLength=$[$(date +"%s")-${{env.START_SECOND}}]

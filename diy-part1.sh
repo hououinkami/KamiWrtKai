@@ -1,6 +1,10 @@
 sed -i "1isrc-git xiangfeidexiaohuo https://github.com/xiangfeidexiaohuo/openwrt-packages" feeds.conf.default
 sed -i "2isrc-git ipkg https://github.com/xiangfeidexiaohuo/op-ipkg\n" feeds.conf.default
 
+#集成关机功能到系统源码菜单中
+curl -fsSL  https://raw.githubusercontent.com/sirpdboy/other/master/patch/poweroff/poweroff.htm > ./feeds/luci/modules/luci-mod-admin-full/luasrc/view/admin_system/poweroff.htm 
+curl -fsSL  https://raw.githubusercontent.com/sirpdboy/other/master/patch/poweroff/system.lua > ./feeds/luci/modules/luci-mod-admin-full/luasrc/controller/admin/system.lua
+
 cd package
 
 #
@@ -48,6 +52,9 @@ sed -i 's/services/vpn/g' OpenClash/luci-app-openclash/luasrc/*.lua
 sed -i 's/services/vpn/g' OpenClash/luci-app-openclash/luasrc/model/cbi/openclash/*.lua
 sed -i 's/services/vpn/g' OpenClash/luci-app-openclash/luasrc/view/openclash/*.htm
 
+# >> 开机默认启动OpenClash
+sed -i "s/uci -q set openclash.config.enable=0/uci -q set openclash.config.enable=1/g" OpenClash/luci-app-openclash/root/etc/uci-defaults/luci-openclash
+
 # 编译OpenAppFilter
 git clone https://github.com/destan19/OpenAppFilter.git && mv -f OpenAppFilter/* ./
 
@@ -64,6 +71,8 @@ cd luci-app-serverchan/root/usr/bin/serverchan
 
 sed -i 's/"IP 地址变化"/"🔗 IPアドレスがISPにより変更"/g' serverchan
 sed -i 's/IP 地址变化/IPアドレス変更/g' serverchan
+sed -i 's/"IPv6 地址变化"/"🔗 IPv6アドレスがISPにより変更"/g' serverchan
+sed -i 's/IPv6 地址变化/IPv6アドレス変更/g' serverchan
 sed -i 's/当前 IP/現在のIP/g' serverchan
 sed -i 's/当前IP/現在のIP/g' serverchan
 sed -i 's/"路由器重新启动"/"🔄 ルーターが再起動しました"/g' serverchan
@@ -114,8 +123,10 @@ sed -i 's/内存占用/メモリ使用/g' serverchan
 sed -i 's/全球互联/グローバル接続/g' serverchan
 sed -i 's/设备温度/設備温度/g' serverchan
 sed -i 's/WAN 口信息/WAN情報/g' serverchan
-sed -i 's/接口 IPv4/インターフェースIP/g' serverchan
-sed -i 's/外网 IPv4/外部ネットワークIP/g' serverchan
+sed -i 's/接口 IPv4/LAN IP/g' serverchan
+sed -i 's/外网 IPv4/WAN IP/g' serverchan
+sed -i 's/接口 IPv6/LAN IPv6/g' serverchan
+sed -i 's/外网 IPv6/WAN IPv6/g' serverchan
 sed -i 's/外网 IP 与接口 IP 不一致，你的 IP 可能不是公网 IP/IPはパブリックネットワークIPではありません。/g' serverchan
 sed -i 's/当前无在线设备/接続しているデバイスなし/g' serverchan
 sed -i 's/在线设备/接続しているデバイス/g' serverchan
@@ -151,6 +162,16 @@ sed -i 's/services/vpn/g' helloworld/luci-app-ssr-plus/luasrc/controller/*.lua
 sed -i 's/services/vpn/g' helloworld/luci-app-ssr-plus/luasrc/model/cbi/shadowsocksr/*.lua
 sed -i 's/services/vpn/g' helloworld/luci-app-ssr-plus/luasrc/view/shadowsocksr/*.htm
 
+# Speedtest
+git clone https://github.com/sirpdboy/netspeedtest.git
+
+# FileBroswer
+rm -rf lean/luci-app-filebrowser
+svn co https://github.com/immortalwrt/luci/branches/openwrt-18.06/applications/luci-app-filebrowser lean/luci-app-filebrowser
+sed -i "s/..\/..\/luci.mk/\$(TOPDIR)\/feeds\/luci\/luci.mk/g" lean/luci-app-filebrowser/Makefile
+rm -rf lean/filebrowser
+svn co https://github.com/immortalwrt/packages/branches/openwrt-18.06/utils/filebrowser lean/filebrowser
+sed -i "s/..\/..\/lang\/golang\/golang-package.mk/\$(TOPDIR)\/feeds\/packages\/lang\/golang\/golang-package.mk/g" lean/filebrowser/Makefile
 
 # Adguard Home
 # git clone https://github.com/rufengsuixing/luci-app-adguardhome.git
@@ -161,6 +182,10 @@ sed -i 's/services/vpn/g' helloworld/luci-app-ssr-plus/luasrc/view/shadowsocksr/
 # git clone --depth 1 https://github.com/linkease/istore && mv -n istore/luci/* ./; rm -rf istore
 # git clone --depth 1 https://github.com/linkease/openwrt-app-actions
 # git clone https://github.com/xiangfeidexiaohuo/op-ipkg.git
+
+# 新增自定义脚本计划任务
+sed -i '/exit 0/i\if [[ "$(cat /etc/crontabs/root | grep "/etc/script/check_openclash_connect.sh")" = "" ]]; then echo "#*/5 * * * * /etc/script/check_openclash_connect.sh" >> /etc/crontabs/root; fi' lean/default-settings/files/zzz-default-settings
+sed -i '/exit 0/i\if [[ "$(cat /etc/crontabs/root | grep "/etc/script/check_wan_connect.sh")" = "" ]]; then echo "#*/5 * * * * /etc/script/check_wan_connect.sh" >> /etc/crontabs/root; fi' lean/default-settings/files/zzz-default-settings
 
 #
 # 自定义主题
