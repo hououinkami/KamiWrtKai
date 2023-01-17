@@ -1,0 +1,34 @@
+
+payload:
+
+
+
+
+
+
+
+
+
+
+
+# > macOS App启动速度优化
+  - DOMAIN,ocsp.apple.com
+  - DOMAIN,ocsp.sectigo.com
+
+# > 无忧行拨打电话
+  - DOMAIN-SUFFIX,jegotrip.com.cn
+
+# > 下载
+  - DOMAIN-SUFFIX,sharepoint.com
+
+
+
+
+
+
+
+
+
+
+
+

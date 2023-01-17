@@ -1,0 +1,31 @@
+
+payload:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# > PS5
+- SRC-IP-CIDR,192.168.2.54/32
+
+# > Nintendo Switch
+- SRC-IP-CIDR,192.168.2.55/32
+
+
+
+

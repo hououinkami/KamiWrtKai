@@ -1,0 +1,36 @@
+
+payload:
+
+
+
+
+
+# > 游戏下载
+  - DOMAIN-SUFFIX,prod.dl.playstation.net
+
+# > 系统更新
+  - DOMAIN-SUFFIX,update.playstation.net
+
+
+# > PS5
+#  - SRC-IP-CIDR,192.168.2.54/32
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,34 @@
+
+payload:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# > 科沃斯App
+  - DOMAIN-SUFFIX,recommender.ecovacs.com
+  - DOMAIN-SUFFIX,recommender.ecovacs.cn
+
+# > 米家App
+  - DOMAIN-SUFFIX,api.mi-img.com
+
+# > 腾讯Tim云服务器请求
+  - DOMAIN-SUFFIX,access-sngapm.qcloud.com
+
+
+
+
+
+
+
+
+

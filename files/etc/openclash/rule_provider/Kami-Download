@@ -1,0 +1,10 @@
+payload:
+  # > Microsoft更新
+  - DOMAIN-SUFFIX,officecdn-microsoft-com.akamaized.net
+
+  # > Adobe更新
+  - DOMAIN-SUFFIX,ardownload.adobe.com
+  - DOMAIN-SUFFIX,ccmdl.adobe.com
+
+  # > 网盘下载
+  - DOMAIN-SUFFIX,mega.co.nz

@@ -1,0 +1,31 @@
+
+payload:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# > Google
+  - DOMAIN-SUFFIX,google.com
+
+# > YouTube
+  - DOMAIN-SUFFIX,youtube.com
+  - DOMAIN,youtubei.googleapis.com
+
+
+
+
