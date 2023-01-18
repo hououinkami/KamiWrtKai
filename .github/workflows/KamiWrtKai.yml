@@ -10,8 +10,8 @@ on:
         default: 'false'
   # schedule:
     # - cron: 0 0 * * 5
-  watch:
-    types: started
+  # watch:
+    # types: started
 env:
   REPO_URL: https://github.com/coolsnowwolf/lede
   REPO_BRANCH: master
@@ -216,10 +216,10 @@ jobs:
     - name: Telegram notification
       if: steps.compile.outputs.status == 'success' && env.TELEGRAM_NOTIFICATION == 'true' && !cancelled() 
       run: |
-        curl -s "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}&text=<b>✅ KamiWrtコンパイル完了！</b>
+        curl -s "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}&text=<b>✅ KamiWrt改コンパイル完了！</b>
         時間：${{env.TIME_HOUR}}時${{env.TIME_MIN}}分&parse_mode=HTML"
 
     - name: Telegram notification when fail
       if: steps.compile.outputs.status != 'success' && env.TELEGRAM_NOTIFICATION == 'true' && !cancelled()
       run: |
-        curl -s "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}&text=<b>❌ KamiWrtコンパイルに失敗！</b>&parse_mode=HTML"
+        curl -s "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}&text=<b>❌ KamiWrt改コンパイルに失敗！</b>&parse_mode=HTML"
