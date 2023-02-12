@@ -18,12 +18,17 @@ cd base-files/files/etc/openclash/core
 # >> 添加Clash Tun内核
 find ../../../../../OpenClash/core-lateset/premium -name "clash-linux-amd64-20*"  | xargs -i mv -f {} ./
 gzip -df *.gz
+ls
 mv clash-linux-amd64* clash_tun
+ls
 chmod 0755 clash_tun
 # >> 添加Clash Meta内核
 find ../../../../../OpenClash/core-lateset/meta -name "clash-linux-amd64.tar.gz"  | xargs -i mv -f {} ./
+ls
 tar -zxvf clash-linux-amd64.tar.gz && rm -rf clash-linux-amd64.tar.gz
+ls
 mv clash clash_meta
+ls
 chmod 0755 clash_meta
 # >> 添加Clash Dev内核
 wget https://github.com/vernesong/OpenClash/releases/download/Clash/clash-linux-amd64.tar.gz
