@@ -1,6 +1,3 @@
-sed -i "1isrc-git xiangfeidexiaohuo https://github.com/xiangfeidexiaohuo/openwrt-packages" feeds.conf.default
-sed -i "2isrc-git ipkg https://github.com/xiangfeidexiaohuo/op-ipkg\n" feeds.conf.default
-
 #集成关机功能到系统源码菜单中
 curl -fsSL  https://raw.githubusercontent.com/sirpdboy/other/master/patch/poweroff/poweroff.htm > ./feeds/luci/modules/luci-mod-admin-full/luasrc/view/admin_system/poweroff.htm 
 curl -fsSL  https://raw.githubusercontent.com/sirpdboy/other/master/patch/poweroff/system.lua > ./feeds/luci/modules/luci-mod-admin-full/luasrc/controller/admin/system.lua
@@ -172,6 +169,12 @@ sed -i "s/..\/..\/luci.mk/\$(TOPDIR)\/feeds\/luci\/luci.mk/g" lean/luci-app-file
 rm -rf lean/filebrowser
 svn co https://github.com/immortalwrt/packages/branches/openwrt-18.06/utils/filebrowser lean/filebrowser
 sed -i "s/..\/..\/lang\/golang\/golang-package.mk/\$(TOPDIR)\/feeds\/packages\/lang\/golang\/golang-package.mk/g" lean/filebrowser/Makefile
+
+# 定时插件
+git clone https://github.com/sirpdboy/luci-app-autotimeset.git
+
+# 家长控制
+git clone https://github.com/sirpdboy/luci-app-parentcontrol.git
 
 # Adguard Home
 # git clone https://github.com/rufengsuixing/luci-app-adguardhome.git
