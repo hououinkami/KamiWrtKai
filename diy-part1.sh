@@ -12,18 +12,19 @@ git clone -b master https://github.com/vernesong/OpenClash.git
 
 mkdir -p base-files/files/etc/openclash/core
 cd base-files/files/etc/openclash/core
+
 # >> 添加Clash Tun内核
-find ../../../../../OpenClash/core-lateset/premium -name "clash-linux-amd64-20*"  | xargs -i mv -f {} ./
+wget https://github.com/vernesong/OpenClash/blob/core/dev/premium/clash-linux-amd64-2023.03.04.gz?raw=true
 gzip -df *.gz
 mv clash-linux-amd64* clash_tun
 chmod 0755 clash_tun
 # >> 添加Clash Meta内核
-wget https://raw.githubusercontent.com/vernesong/OpenClash/master/core-lateset/meta/clash-linux-amd64.tar.gz
+wget https://github.com/vernesong/OpenClash/blob/core/dev/meta/clash-linux-amd64.tar.gz?raw=true
 tar -zxvf clash-linux-amd64.tar.gz && rm -rf clash-linux-amd64.tar.gz
 mv clash clash_meta
 chmod 0755 clash_meta
 # >> 添加Clash Dev内核
-wget https://github.com/vernesong/OpenClash/releases/download/Clash/clash-linux-amd64.tar.gz
+wget https://github.com/vernesong/OpenClash/blob/core/dev/dev/clash-linux-amd64.tar.gz?raw=true
 tar -zxvf clash-linux-amd64.tar.gz && rm -rf clash-linux-amd64.tar.gz
 chmod 0755 clash
 
