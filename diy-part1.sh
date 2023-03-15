@@ -7,7 +7,7 @@ cd package
 #
 # 自定义插件
 #
-# > 编译OpenClash
+# 编译OpenClash
 git clone -b master https://github.com/vernesong/OpenClash.git
 
 mkdir -p base-files/files/etc/openclash/core
@@ -55,6 +55,13 @@ sed -i "s/uci -q set openclash.config.enable=0/uci -q set openclash.config.enabl
 
 # 编译OpenAppFilter
 git clone https://github.com/destan19/OpenAppFilter.git && mv -f OpenAppFilter/* ./
+
+# >> 归类至管控菜单
+sed -i 's/services/control/g' luci-app-oaf/luasrc/controller/*.lua
+sed -i 's/services/control/g' luci-app-oaf/luasrc/*.lua
+sed -i 's/services/control/g' luci-app-oaf/luasrc/model/cbi/appfilter/*.lua
+sed -i 's/services/control/g' luci-app-oaf/luasrc/view/admin_network/*.htm
+sed -i 's/services/control/g' luci-app-oaf/luasrc/view/cbi/*.htm
 
 # 编译ServerChan
 cd lean
