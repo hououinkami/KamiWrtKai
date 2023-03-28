@@ -165,12 +165,12 @@ cd -
 git clone https://github.com/hououinkami/KamiWrtBot.git
 
 # HelloWorld
-rm -rf helloworld
-git clone --depth=1 https://github.com/fw876/helloworld.git
+# rm -rf helloworld
+# git clone --depth=1 https://github.com/fw876/helloworld.git
 
-sed -i 's/services/vpn/g' helloworld/luci-app-ssr-plus/luasrc/controller/*.lua
-sed -i 's/services/vpn/g' helloworld/luci-app-ssr-plus/luasrc/model/cbi/shadowsocksr/*.lua
-sed -i 's/services/vpn/g' helloworld/luci-app-ssr-plus/luasrc/view/shadowsocksr/*.htm
+# sed -i 's/services/vpn/g' helloworld/luci-app-ssr-plus/luasrc/controller/*.lua
+# sed -i 's/services/vpn/g' helloworld/luci-app-ssr-plus/luasrc/model/cbi/shadowsocksr/*.lua
+# sed -i 's/services/vpn/g' helloworld/luci-app-ssr-plus/luasrc/view/shadowsocksr/*.htm
 
 # Speedtest
 git clone https://github.com/sirpdboy/netspeedtest.git
