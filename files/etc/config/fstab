@@ -1,7 +1,7 @@
 
 config global
 	option anon_swap '0'
-	option anon_mount '0'
+	option anon_mount '1'
 	option auto_swap '1'
 	option auto_mount '1'
 	option delay_root '5'
@@ -9,7 +9,7 @@ config global
 
 config mount
 	option target '/overlay'
-	option uuid 'f3075b99-596a-4808-ae7f-5c217b511eb1'
+	option uuid 'bda0753d-1fbb-4c20-a94f-b4b0d37ae7ba'
 	option enabled '0'
 
 config mount
@@ -19,7 +19,7 @@ config mount
 
 config mount
 	option target '/rom'
-	option uuid 'd798446c-0f0612c3-bd6f95ee-65564d7c'
+	option uuid 'cfa2af4d-3a663b8a-1bd2d9f8-3d24685c'
 	option enabled '0'
 
 config mount
