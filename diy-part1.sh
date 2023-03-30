@@ -10,13 +10,18 @@ cd package
 # 编译OpenClash
 git clone -b master https://github.com/vernesong/OpenClash.git
 
+cd OpenClash
+git clone -b core https://github.com/vernesong/OpenClash.git core
+cd -
+find OpenClash/core/dev/premium -name "clash-linux-amd64-20*"  | xargs -i mv -f {} ./
+gzip -df clash-linux-amd64-20*.gz
+mv clash-linux-amd64* clash_tun
+rm -rf OpenClash/core
+
 # >> 添加Clash Tun内核
 mkdir -p base-files/files/etc/openclash/core
+mv clash_tun base-files/files/etc/openclash/core
 cd base-files/files/etc/openclash/core
-
-wget https://github.com/vernesong/OpenClash/blob/core/dev/premium/clash-linux-amd64-2023.03.18-2-g125eb71.gz?raw=true
-gzip -df *.gz
-mv clash-linux-amd64* clash_tun
 chmod 0755 clash_tun
 
 # >> 添加Clash Meta内核
