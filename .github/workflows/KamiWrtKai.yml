@@ -81,6 +81,8 @@ jobs:
         cp -f ../$DIY_P2_SH ./        
         chmod +x ./$DIY_P2_SH && ./$DIY_P2_SH
 
+        sed -i 's/root:$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.:0:0:99999:7:::/${{ secrets.WRT_PASS }}/g' ./package/lean/default-settings/files/zzz-default-settings
+
     - name: Configuration Customization
       run: |
         [ -e files ] && mv files openwrt/files
